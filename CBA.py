@@ -29,11 +29,11 @@ ClassLabel = int
 
 class CBA:
     
-    def __init__(self, minsup: float, minconf: float):
+    def __init__(self, minsup, minconf):
         self.minsup = minsup
         self.minconf = minconf
         
-    def fit(self, dataset: Dataset, Y, algorithm="M1"):
+    def fit(self, dataset, Y, algorithm="M1"):
         self.dataset = dataset
         self.Y = Y
         
@@ -50,8 +50,13 @@ class CBA:
     def list_classifier_rules(self):
         return self.classifier.rules
         
-    def predict(self, x: CondSet):
+    def predict(self, x):
         return self.classifier.predict(x)
         
-        
+    def predict_all(self, x):
+        classes = []
+        new_x = list(map(frozenset, x))
+x           for case in new_x:
+            classes.append(self.predict(case))
+        return classes    
         

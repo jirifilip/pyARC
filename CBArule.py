@@ -65,4 +65,3 @@ class M2Rule(CBArule):
     def __init__(self, condset, supcounts, dataset_len):
         CBArule.__init__(self, condset, supcounts, dataset_len)
         self.class_cases_covered = 0
-        self.replace

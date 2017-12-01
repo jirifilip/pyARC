@@ -34,12 +34,17 @@ i_test_x = i_x[split:]
 i_train_y = i_y[:split]
 i_test_y = i_y[split:]
 
+correct_classes = list(map(lambda x: int(x[1]), i_test_y))
 
 rules = []
 
 cba = CBA(0.5, 0.5)
 cba.fit(i_train_x, i_train_y)
 
+classes = list(map(int, cba.predict_all(i_test_x)))
+print(classes)
+print(correct_classes)
+"""
 mistakes = 0
 test_len = len(i_test_x)
 for idx, case in enumerate(i_test_x):
@@ -56,3 +61,6 @@ def _print_rules(rules):
         print(rule)
 
 _print_rules(rules)
+
+_print_rules(cba.list_classifier_rules())
+"""
