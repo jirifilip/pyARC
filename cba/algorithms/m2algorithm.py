@@ -1,5 +1,8 @@
 from .rule_algorithm import RuleBuilderAlgorithm
 from .classifier import Classifier
+from ..data_structures import ClassAssocationRule, Antecedent, Consequent
+
+import collections
 
 class M2Algorithm(RuleBuilderAlgorithm):
     

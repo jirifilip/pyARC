@@ -7,8 +7,7 @@ df = pd.read_csv("c:/code/python/machine_learning/assoc_rules/train/iris0.csv")
 transactions = TransactionDB.from_pandasdf(df) 
 transactions_test = TransactionDB.from_pandasdf(pd.read_csv("c:/code/python/machine_learning/assoc_rules/test/iris0.csv"))
 
-cba = CBA()
-
+cba = CBA(algorithm="m2")
 pred = cba.fit(transactions).predict(transactions_test)
 
 print(pred)
