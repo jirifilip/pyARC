@@ -1,53 +1,14 @@
-from CBA import CBA
+import pandas as pd
 
-dataset = [
-    [("A", 1), ("B", 1), ("C", 1), ("D", 0), ("E", 0)],
-    [("A", 1), ("B", 1), ("C", 1), ("D", 1), ("E", 1)],
-    [("A", 1), ("B", 0), ("C", 1), ("D", 1), ("E", 0)],
-    [("A", 1), ("B", 0), ("C", 1), ("D", 1), ("E", 1)],
-    [("A", 1), ("B", 1), ("C", 1), ("D", 1), ("E", 0)],
-    [("A", 1), ("B", 1), ("C", 1), ("D", 0), ("E", 0)],
-    [("A", 1), ("B", 0), ("C", 0), ("D", 1), ("E", 1)],
-    [("A", 1), ("B", 1), ("C", 0), ("D", 0), ("E", 1)],
-    [("A", 1), ("B", 1), ("C", 1), ("D", 1), ("E", 0)],
-    [("A", 1), ("B", 0), ("C", 0), ("D", 0), ("E", 1)],
-]
+from cba import CBA
+from cba.data_structures import TransactionDB
 
-test = [
-    [("A", 1), ("B", 1), ("C", 1), ("D", 1), ("E", 0)],
-    [("A", 1), ("B", 1), ("C", 1), ("D", 0), ("E", 0)],
-    [("A", 1), ("B", 1), ("C", 1), ("D", 1), ("E", 1)],
-    [("A", 1), ("B", 1), ("C", 0), ("D", 0), ("E", 0)],
-]
+df = pd.read_csv("c:/code/python/machine_learning/assoc_rules/train/iris0.csv")
+transactions = TransactionDB.from_pandasdf(df) 
+transactions_test = TransactionDB.from_pandasdf(pd.read_csv("c:/code/python/machine_learning/assoc_rules/test/iris0.csv"))
 
-test_Y = [
-    ("Class", 1),
-    ("Class", 1),
-    ("Class", 0),
-    ("Class", 0),
-]
+cba = CBA()
 
-Y = [
-    ("Class", 1),
-    ("Class", 1),
-    ("Class", 0),
-    ("Class", 0),
-    ("Class", 1),
-    ("Class", 0),
-    ("Class", 0),
-    ("Class", 0),
-    ("Class", 1),
-    ("Class", 1),
-]
+pred = cba.fit(transactions).predict(transactions_test)
 
-cba = CBA(1, 1)
-cba.fit(dataset, Y)
-cba.predict(frozenset([("A", 0), ("B", 1)]))
-
-rules = cba.list_classifier_rules()
-
-def _print_rules(rules):
-    for rule in rules:
-        print(rule)
-
-_print_rules(rules)
+print(pred)
