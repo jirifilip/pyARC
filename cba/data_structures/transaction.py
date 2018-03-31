@@ -1,5 +1,6 @@
 from .comparable_itemset import ComparableItemSet
-from . import Item
+from .item import Item
+
 
 class Transaction(ComparableItemSet):
     
@@ -34,6 +35,9 @@ class Transaction(ComparableItemSet):
     
     def __hash__(self):
         return hash(tuple(self.items))
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
     
     def __getitem__(self, idx):
         return self.items[idx]

@@ -13,21 +13,7 @@ def generateCARs(transactionDB, support=1, confidence=50, maxlen=10, **kwargs):
     rules = fim.apriori(transactionDB.string_representation, supp=support, conf=confidence, target="r", report="sc", appear=appear, **kwargs, zmax=maxlen)
     
 
-    cars = []
-    for idx, rule in enumerate(rules):
-        con_tmp, ant_tmp, support, confidence = rule
-
-        con = Consequent(*con_tmp.split("="))
-
-        ant_items = [ Item(*i.split("=")) for i in ant_tmp ]
-        ant = Antecedent(ant_items)
-        
-        id_len = len(ant)
-
-        car = ClassAssocationRule(ant, con, support=support, confidence=confidence, id_rule=id_len)
-        cars.append(car)
-        
-    return cars
+    return createCARS(rules)
  
 
 
@@ -78,8 +64,6 @@ def top_rules(transactions,
             break
                 
                 
-        new_values = None
-        
         
         try:
             print("Running apriori with setting: confidence={}, support={}, minlen={}, maxlen={}, MAX_RULE_LEN={}".format(
@@ -136,3 +120,29 @@ def top_rules(transactions,
        
     return rules
 
+
+
+"""
+==============================================================================
+CREATE CARS
+==============================================================================
+"""
+def createCARs(rules):
+    CARs = []
+    
+    for rule in rules:
+        con_tmp, ant_tmp, support, confidence = rule
+
+        con = Consequent(*con_tmp.split("="))
+
+        ant_items = [ Item(*i.split("=")) for i in ant_tmp ]
+        ant = Antecedent(ant_items)
+
+        id_len = len(ant)
+
+        CAR = ClassAssocationRule(ant, con, support=support, confidence=confidence, id_rule=id_len)
+        CARs.append(CAR)
+
+    CARs.sort(reverse=True)
+
+    return CARs
