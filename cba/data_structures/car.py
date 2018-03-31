@@ -45,5 +45,5 @@ class ClassAssocationRule():
     
     def __repr__(self):
         args = [self.antecedent, self.consequent, self.support, self.confidence, self.id]
-        text = "CAR {0} -> {1} | support: {2:.2f} %, confidence: {3:.2f} %, id: {4}".format(*args)
+        text = "CAR {0} -> {1} | support: {2:.2f}, confidence: {3:.2f}, id: {4}".format(*args)
         return text

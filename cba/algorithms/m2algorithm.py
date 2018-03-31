@@ -7,6 +7,8 @@ import collections
 class M2Algorithm(RuleBuilderAlgorithm):
     
     def build(self):
+
+        self.rules.sort(reverse=True)
         
         self.dataset_len = len(self.dataset)
         
@@ -79,6 +81,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         
     def stage3(self):
         Qlist = sorted(self.Q, reverse=True)
+
         rule_errors = 0
         rule_supcount = 0
         total_errors_list = []
@@ -131,7 +134,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         return ClassAssocationRule(Antecedent([]), Consequent(None, None), 0, 0, 999999)
     
     
-    def maxcoverrule(self, datacase, rules, sameclass=True):
+    def maxcoverrule(self, datacase, rules):
         """
         finds the highest precedence rule that covers
         the case d
@@ -150,16 +153,18 @@ class M2Algorithm(RuleBuilderAlgorithm):
         
         for rule in rules:
             if rule.antecedent <= datacase:
-                if rule.consequent == datacase.class_val:
+                if rule.consequent == datacase.class_val and not crule:
                     # save cRule
                     crule = rule
                     if crule and wrule:
                         return crule, wrule
-                else:
+                elif not wrule:
                     # save wRule
                     wrule = rule
                     if crule and wrule:
                         return crule, wrule
+
+        
         
         return crule, wrule
     
