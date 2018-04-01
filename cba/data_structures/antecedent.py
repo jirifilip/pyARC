@@ -50,3 +50,11 @@ class Antecedent(ComparableItemSet):
     
     def __eq__(self, other):
         return hash(self) == hash(other)
+
+    def string(self):
+        items = list(self.itemset.items())
+        string_items = [ "{}={}".format(key, val) for key, val in items ]
+
+        string_ant = ",".join(string_items)
+
+        return "{" + string_ant + "}"

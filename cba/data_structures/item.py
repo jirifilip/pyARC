@@ -32,5 +32,8 @@ class Item():
     
     def __repr__(self):
         return "Item{{{}}}".format(self._get_tuple())
+
+    def string(self):
+        return "{}={}".format(*self)
     
     

@@ -4,6 +4,30 @@ from ..data_structures import Consequent, Item, Antecedent, ClassAssocationRule
 
 """
 ==============================================================================
+CREATE CARS
+==============================================================================
+"""
+def createCARs(rules):
+    CARs = []
+    
+    for rule in rules:
+        con_tmp, ant_tmp, support, confidence = rule
+
+        con = Consequent(*con_tmp.split("="))
+
+        ant_items = [ Item(*i.split("=")) for i in ant_tmp ]
+        ant = Antecedent(ant_items)
+
+        CAR = ClassAssocationRule(ant, con, support=support, confidence=confidence)
+        CARs.append(CAR)
+
+    CARs.sort(reverse=True)
+
+    return CARs
+
+
+"""
+==============================================================================
 GENERATE CARS
 ==============================================================================
 """
@@ -13,7 +37,20 @@ def generateCARs(transactionDB, support=1, confidence=50, maxlen=10, **kwargs):
     rules = fim.apriori(transactionDB.string_representation, supp=support, conf=confidence, target="r", report="sc", appear=appear, **kwargs, zmax=maxlen)
     
 
-    return createCARS(rules)
+    return createCARs(rules)
+ 
+
+"""
+==============================================================================
+APRIORI
+==============================================================================
+"""
+def apriori(transactionDB, support=1, confidence=50, maxlen=10, **kwargs):
+    appear = transactionDB.appeardict
+    
+    rules = fim.apriori(transactionDB.string_representation, supp=support, conf=confidence, target="r", report="sc", appear=appear, **kwargs, zmax=maxlen)
+    
+    return rules
  
 
 
@@ -122,25 +159,3 @@ def top_rules(transactions,
 
 
 
-"""
-==============================================================================
-CREATE CARS
-==============================================================================
-"""
-def createCARs(rules):
-    CARs = []
-    
-    for rule in rules:
-        con_tmp, ant_tmp, support, confidence = rule
-
-        con = Consequent(*con_tmp.split("="))
-
-        ant_items = [ Item(*i.split("=")) for i in ant_tmp ]
-        ant = Antecedent(ant_items)
-
-        CAR = ClassAssocationRule(ant, con, support=support, confidence=confidence)
-        CARs.append(CAR)
-
-    CARs.sort(reverse=True)
-
-    return CARs

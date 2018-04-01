@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Classifier:
     
     def init(self):
@@ -18,3 +20,27 @@ class Classifier:
             predicted.append(self.predict(datacase))
             
         return predicted
+
+
+    def inspect(self):
+        
+        dictionary = {
+            "lhs": [],
+            "rhs": [],
+            "confidence": [],
+            "support": [],
+            "length": []
+        }
+
+        for rule in self.rules:
+            dictionary["lhs"].append(rule.antecedent.string())
+            dictionary["rhs"].append(rule.consequent.string())
+            dictionary["confidence"].append(rule.confidence)
+            dictionary["support"].append(rule.support)
+            dictionary["length"].append(len(rule.antecedent) + 1)
+
+        rules_df = pd.DataFrame(dictionary)
+        rules_df = rules_df[["lhs", "rhs", "confidence", "support", "length"]]
+
+        return rules_df
+
