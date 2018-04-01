@@ -138,9 +138,7 @@ def createCARs(rules):
         ant_items = [ Item(*i.split("=")) for i in ant_tmp ]
         ant = Antecedent(ant_items)
 
-        id_len = len(ant)
-
-        CAR = ClassAssocationRule(ant, con, support=support, confidence=confidence, id_rule=id_len)
+        CAR = ClassAssocationRule(ant, con, support=support, confidence=confidence)
         CARs.append(CAR)
 
     CARs.sort(reverse=True)

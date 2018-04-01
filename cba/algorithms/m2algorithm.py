@@ -131,7 +131,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         
     
     def emptyrule(self):
-        return ClassAssocationRule(Antecedent([]), Consequent(None, None), 0, 0, 999999)
+        return ClassAssocationRule(Antecedent([]), Consequent(None, None), 0, 0)
     
     
     def maxcoverrule(self, datacase, rules):

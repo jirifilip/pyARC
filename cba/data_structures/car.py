@@ -1,12 +1,12 @@
 import collections
 
 class ClassAssocationRule():
-    def __init__(self, antecedent, consequent, support, confidence, id_rule):
+    def __init__(self, antecedent, consequent, support, confidence):
         self.antecedent = antecedent
         self.consequent = consequent
         self.support = support
         self.confidence = confidence
-        self.id = len(antecedent)
+        self.rulelen = len(antecedent)
         
         self.support_count = 0
         
@@ -29,7 +29,7 @@ class ClassAssocationRule():
             return True
         elif (self.confidence == other.confidence and
               self.support == other.support and
-              self.id < other.id):
+              self.rulelen < other.rulelen):
             return True
         else:
             return False
@@ -44,6 +44,6 @@ class ClassAssocationRule():
         return len(self.antecedent) + len(self.consequent)
     
     def __repr__(self):
-        args = [self.antecedent, self.consequent, self.support, self.confidence, self.id]
-        text = "CAR {0} -> {1} | support: {2:.2f}, confidence: {3:.2f}, id: {4}".format(*args)
+        args = [self.antecedent, self.consequent, self.support, self.confidence, self.rulelen]
+        text = "CAR {0} -> {1} | support: {2:.2f}, confidence: {3:.2f}, len: {4}".format(*args)
         return text
