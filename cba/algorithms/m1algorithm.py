@@ -13,7 +13,6 @@ class M1Algorithm(RuleBuilderAlgorithm):
         
         default_classes = []
         default_classes_errors = []
-        most_common_left = []
         satisfies_ant_count = []
         rule_errors = []
         rule_right = []

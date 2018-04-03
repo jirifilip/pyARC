@@ -26,6 +26,8 @@ class Transaction(ComparableItemSet):
             
         key, val = self.class_val
         self.string_items.append("{}={}".format(key, val))
+
+        self.frozenset = frozenset(self)
             
             
     

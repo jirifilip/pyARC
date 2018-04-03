@@ -12,6 +12,8 @@ class Antecedent(ComparableItemSet):
         items: list of conditions
         """
         self.itemset = dict(list(set(items)))
+
+        self.frozenset = frozenset(self)
         
     
     def __getattr__(self, attr_name):
