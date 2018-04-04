@@ -56,8 +56,8 @@ class TransactionDB:
         return self.data[idx]
     
     
-    @staticmethod
-    def from_pandasdf(df):
+    @classmethod
+    def from_pandasdf(clazz, df):
         """
         convert pandas dataframe to DataSet
         """
@@ -65,7 +65,7 @@ class TransactionDB:
         rows = df.values
         header = list(df.columns.values)
 
-        return TransactionDB(rows, header)
+        return clazz(rows, header)
 
     
     def __repr__(self):

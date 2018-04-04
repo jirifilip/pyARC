@@ -2,6 +2,8 @@ import collections
 from .rule_algorithm import RuleBuilderAlgorithm
 from .classifier import Classifier
 
+import time
+
 class M1Algorithm(RuleBuilderAlgorithm):
     
     def build(self):
@@ -17,7 +19,7 @@ class M1Algorithm(RuleBuilderAlgorithm):
         rule_errors = []
         rule_right = []
         total_errors = []    
-        
+
         for rule in self.rules:
             if (dataset_len_updated <= 0):
                 break
@@ -46,7 +48,6 @@ class M1Algorithm(RuleBuilderAlgorithm):
                 
                 
                 ctr = collections.Counter(map(lambda d: d.class_val.value, dataset))
-                
                 
                 # this will be the default class
                 most_common_tuple = ctr.most_common(1)
@@ -107,4 +108,5 @@ class M1Algorithm(RuleBuilderAlgorithm):
         clf.rules = classif
         clf.default_class = default_class
         
+
         return clf

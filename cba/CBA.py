@@ -1,4 +1,5 @@
 from .algorithms import M1Algorithm, M2Algorithm, generateCARs
+import time
 
 class CBA():
     def __init__(self, support=0.01, confidence=0.5, algorithm="m1"):
@@ -15,7 +16,10 @@ class CBA():
         
         used_algorithm = self.available_algorithms[self.algorithm]
         
+        generating_time1 = time.time()
         cars = generateCARs(transactions, support=self.support, confidence=self.confidence)
+        generating_duration = time.time() - generating_time1
+
 
         self.clf = used_algorithm(cars, transactions).build()
         
