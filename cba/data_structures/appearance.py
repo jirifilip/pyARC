@@ -13,7 +13,7 @@ class Appearance:
         
     def __add(self, item, where):
         key, value = item.attribute, item.value
-        string_repr = "{}={}".format(key, value)
+        string_repr = "{}:=:{}".format(key, value)
         
         where_list = self.lhs if where == "a" else self.rhs
         

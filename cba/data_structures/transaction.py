@@ -20,12 +20,12 @@ class Transaction(ComparableItemSet):
             
             item = Item(header_label, val)
             
-            self.string_items.append("{}={}".format(header_label, val)) 
+            self.string_items.append("{}:=:{}".format(header_label, val)) 
             
             self.items.append(item)
             
         key, val = self.class_val
-        self.string_items.append("{}={}".format(key, val))
+        self.string_items.append("{}:=:{}".format(key, val))
 
         self.frozenset = frozenset(self)
             

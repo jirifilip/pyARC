@@ -112,7 +112,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
                 default_errors = self.dataset_len - rule_supcount - default_class_count
                 
                 total_errors = rule_errors + default_errors
-                                    
+                
                 rules_list.append(rule)
                 default_classes_list.append(default_class_label)
                 total_errors_list.append(total_errors)

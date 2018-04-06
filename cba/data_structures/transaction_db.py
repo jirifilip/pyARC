@@ -15,6 +15,7 @@ class TransactionDB:
         
         """
         
+        self.header = header
         self.class_labels = []
         
         new_dataset = []

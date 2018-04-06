@@ -6,7 +6,7 @@ class ClassAssocationRule():
         self.consequent = consequent
         self.support = support
         self.confidence = confidence
-        self.rulelen = len(antecedent)
+        self.rulelen = len(antecedent) + 1
         
         self.support_count = 0
         

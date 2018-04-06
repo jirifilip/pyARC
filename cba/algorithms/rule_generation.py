@@ -13,9 +13,9 @@ def createCARs(rules):
     for rule in rules:
         con_tmp, ant_tmp, support, confidence = rule
 
-        con = Consequent(*con_tmp.split("="))
+        con = Consequent(*con_tmp.split(":=:"))
 
-        ant_items = [ Item(*i.split("=")) for i in ant_tmp ]
+        ant_items = [ Item(*i.split(":=:")) for i in ant_tmp ]
         ant = Antecedent(ant_items)
 
         CAR = ClassAssocationRule(ant, con, support=support, confidence=confidence)

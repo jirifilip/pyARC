@@ -20,6 +20,8 @@ class M1Algorithm(RuleBuilderAlgorithm):
         rule_right = []
         total_errors = []    
 
+        classdist = collections.Counter(map(lambda d: d.class_val.value, dataset))
+
         for rule in self.rules:
             if (dataset_len_updated <= 0):
                 break
@@ -31,26 +33,30 @@ class M1Algorithm(RuleBuilderAlgorithm):
             
             for datacase in dataset:
                 
-                if rule.antecedent <= datacase: # or set(dict(rule.antecedent)) == set(dict(datacase.items)):
+                if rule.antecedent <= datacase:
                     temp_satisfies_ant_cnt += 1
-                    
+                    temp.add(datacase)
+                    temp_len += 1
+
+                    rule.class_cases_covered.update([datacase.class_val.value])
+
                     if rule.consequent == datacase.class_val:  
-                        
-                        temp.add(datacase)
-                        temp_len += 1
                         rule.marked = True
                         
             if rule.marked == True:
+
                 classifier.append(rule)
                 
                 dataset -= temp
                 dataset_len_updated -= temp_len
                 
                 
-                ctr = collections.Counter(map(lambda d: d.class_val.value, dataset))
-                
+                #ctr = collections.Counter(map(lambda d: d.class_val.value, dataset))
+                classdist = self.update_class_distr(classdist, rule)
+
+
                 # this will be the default class
-                most_common_tuple = ctr.most_common(1)
+                most_common_tuple = classdist.most_common(1)
                 
                 most_common_cnt = 0
                 most_common_label = "None"

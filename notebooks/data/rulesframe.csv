@@ -1,9 +1,9 @@
 ,lhs,rhs,confidence,support,length
 0,{a-list-celebrities=<0;2)},class=box-office-bomb,1.0,0.3142857142857143,2
 1,{estimated-budget=<250;300)},class=main-stream-hit,1.0,0.05714285714285714,2
-2,"{estimated-budget=<0;50),a-list-celebrities=<4;6)}",class=critical-success,1.0,0.05714285714285714,3
+2,"{a-list-celebrities=<4;6),estimated-budget=<0;50)}",class=critical-success,1.0,0.05714285714285714,3
 3,{estimated-budget=<200;250)},class=box-office-bomb,0.6666666666666666,0.05714285714285714,2
-4,"{estimated-budget=<50;100),a-list-celebrities=<4;6)}",class=critical-success,0.6666666666666666,0.05714285714285714,3
+4,"{a-list-celebrities=<4;6),estimated-budget=<50;100)}",class=critical-success,0.6666666666666666,0.05714285714285714,3
 5,{estimated-budget=<0;50)},class=box-office-bomb,0.625,0.14285714285714285,2
 6,"{estimated-budget=<150;200),a-list-celebrities=<2;4)}",class=critical-success,0.5,0.05714285714285714,3
 7,"{estimated-budget=<50;100),a-list-celebrities=<2;4)}",class=box-office-bomb,0.5,0.05714285714285714,3
