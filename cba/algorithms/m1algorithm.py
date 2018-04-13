@@ -5,6 +5,19 @@ from .classifier import Classifier
 import time
 
 class M1Algorithm(RuleBuilderAlgorithm):
+    """ M1 Algorithm implementation for CBA 
+    Classifier Builder
+
+    Parameters
+    ----------
+
+
+    Attributes
+    ----------
+
+
+
+    """
     
     def build(self):
         classifier = []
@@ -15,12 +28,8 @@ class M1Algorithm(RuleBuilderAlgorithm):
         
         default_classes = []
         default_classes_errors = []
-        satisfies_ant_count = []
         rule_errors = []
-        rule_right = []
         total_errors = []    
-
-        classdist = collections.Counter(map(lambda d: d.class_val.value, dataset))
 
         for rule in self.rules:
             if (dataset_len_updated <= 0):
@@ -28,22 +37,20 @@ class M1Algorithm(RuleBuilderAlgorithm):
             
             temp = set()
             temp_len = 0
-            temp_satisfies_ant_cnt = 0
+            temp_satisfies_conseq_cnt = 0
             
             
             for datacase in dataset:
-                
                 if rule.antecedent <= datacase:
-                    temp_satisfies_ant_cnt += 1
                     temp.add(datacase)
                     temp_len += 1
 
-                    rule.class_cases_covered.update([datacase.class_val.value])
-
                     if rule.consequent == datacase.class_val:  
+                        temp_satisfies_conseq_cnt += 1
                         rule.marked = True
                         
-            if rule.marked == True:
+
+            if rule.marked:
 
                 classifier.append(rule)
                 
@@ -51,12 +58,10 @@ class M1Algorithm(RuleBuilderAlgorithm):
                 dataset_len_updated -= temp_len
                 
                 
-                #ctr = collections.Counter(map(lambda d: d.class_val.value, dataset))
-                classdist = self.update_class_distr(classdist, rule)
-
-
+                ctr = collections.Counter(map(lambda d: d.class_val.value, dataset))
+                
                 # this will be the default class
-                most_common_tuple = classdist.most_common(1)
+                most_common_tuple = ctr.most_common(1)
                 
                 most_common_cnt = 0
                 most_common_label = "None"
@@ -73,18 +78,13 @@ class M1Algorithm(RuleBuilderAlgorithm):
                 # this is the default class label inserted at corresponding list
                 default_classes.append(most_common_label)
                 
-                # number of datacases that satisfy the rule
-                satisfies_ant_count.append(temp_satisfies_ant_cnt)
                 
                 # number of errors the rule will make => all_satisfying - conseq_satisfying
-                rule_errors.append(temp_satisfies_ant_cnt - temp_len)
-                rule_right.append(temp_len)
+                rule_errors.append(temp_len - temp_satisfies_conseq_cnt)
                 
                 
-                #dflt_class_err = dataset_len - (sum(satisfies_ant_count) + most_common_tuple[1])
                 dflt_class_err = dataset_len_updated - most_common_cnt
                 err_cnt = dflt_class_err
-                #if dflt_class_err > 0: err_cnt = dflt_class_err
                     
                 
                 
@@ -96,19 +96,17 @@ class M1Algorithm(RuleBuilderAlgorithm):
                 
             temp = set()
             temp_len = 0
-            temp_satisfies_ant_cnt = 0
+            temp_satisfies_conseq_cnt = 0
             
             
         min_errors = min(total_errors)
         
         indices_to_cut = [ i for i in range(len(total_errors)) if total_errors[i] == min_errors ]
         
-        idx_to_cut = indices_to_cut[-1]
+        idx_to_cut = indices_to_cut[0]
         
         classif = classifier[:idx_to_cut+1]
         default_class = default_classes[idx_to_cut]        
-        
-        #return classifier, default_classes, total_errors, rule_errors, satisfies_ant_count, rule_right, default_classes_errors
         
         clf = Classifier()
         clf.rules = classif

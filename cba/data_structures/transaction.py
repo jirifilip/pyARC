@@ -3,10 +3,14 @@ from .item import Item
 
 
 class Transaction(ComparableItemSet):
+
+    id_ = 0
     
     def __init__(self, row, header, class_item):
         self.class_val = class_item
         self.items = []
+        self.tid = Transaction.id_
+        Transaction.id_ += 1
         
         self.alreadycovered = False
         self.hidden = False
@@ -37,6 +41,7 @@ class Transaction(ComparableItemSet):
     
     def __hash__(self):
         return hash(tuple(self.items))
+        #return hash((self.tid, tuple(self.items)))
 
     def __eq__(self, other):
         return hash(self) == hash(other)
@@ -46,3 +51,10 @@ class Transaction(ComparableItemSet):
     
     def getclass(self):
         return self.class_val
+
+
+
+class UniqueTransaction(Transaction):
+
+    def __hash__(self):
+        return hash(self.tid)

@@ -1,37 +1,57 @@
 class Item():
+    """ Item class for representing attribute-value pair
+    and one item in transaction or antecedent.
+
+
+    Parameters
+    ----------
+    attribute : str
+        name of the item
+
+    value: str
+        value of the item
+
+
+    Attributes
+    ----------
+    attribute : str
+        name of the item
+
+    value: str
+        value of the item
+
+
     """
-    represents a (attribute, value) pair
-    """
-    
     def __init__(self, attribute, value):
+        # convert attribute and value so that 
+        # Item("a", 1) == Item("a", "1")
         self.attribute = repr(attribute) if type(attribute) != str else attribute
         self.value = repr(value) if type(value) != str else value
         
-    def _get_tuple(self):
+    def __get_tuple(self):
+        """Private method for getting an (attribute, value) pair"""
         return (self.attribute, self.value)
     
     def __getitem__(self, idx):
-        item = self._get_tuple()
+        """Method for accessing Item as a tuple"""
+        item = self.__get_tuple()
         return item[idx]
     
     
     def __hash__(self):
+        """Two Items with the same attribute and value
+        have identical hash value.
         """
-        returns: (attribute, value) tuple
-        """
-        return hash(self._get_tuple())
+        return hash(self.__get_tuple())
     
     def __eq__(self, other):
+        """Overriden method in order to compare based on
+        value and not reference.
+        """
         return hash(self) == hash(other)
     
-    def __lt__(self, other):
-        return self._get_tuple() < other._get_tuple()
-    
-    def __gt__(self, other):
-        return self._get_tuple() > other._get_tuple()
-    
     def __repr__(self):
-        return "Item{{{}}}".format(self._get_tuple())
+        return "Item{{{}}}".format(self.__get_tuple())
 
     def string(self):
         return "{}={}".format(*self)

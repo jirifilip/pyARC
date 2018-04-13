@@ -1,7 +1,14 @@
 import pandas as pd
+import sklearn.metrics as skmetrics
 
 class Classifier:
-    
+
+    def test_transactions(self, txns):
+        pred = self.predict_all(txns)
+        actual = txns.classes
+
+        return skmetrics.accuracy_score(pred, actual)
+
     def init(self):
         self.rules = []
         self.default_class = None
@@ -29,7 +36,8 @@ class Classifier:
             "rhs": [],
             "confidence": [],
             "support": [],
-            "length": []
+            "length": [],
+            "id": []
         }
 
         for rule in self.rules:
@@ -38,9 +46,10 @@ class Classifier:
             dictionary["confidence"].append(rule.confidence)
             dictionary["support"].append(rule.support)
             dictionary["length"].append(len(rule.antecedent) + 1)
+            dictionary["id"].append(rule.rid)
 
         rules_df = pd.DataFrame(dictionary)
-        rules_df = rules_df[["lhs", "rhs", "confidence", "support", "length"]]
+        rules_df = rules_df[["lhs", "rhs", "confidence", "support", "length", "id"]]
 
         return rules_df
 

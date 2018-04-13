@@ -2,9 +2,8 @@ from functools import reduce
 from .comparable_itemset import ComparableItemSet
 
 class Antecedent(ComparableItemSet):
-    """
-    represents a left-hand side of the association rule
-    set of conditions
+    """Antecedent represents a left-hand side of the association rule.
+    It is a set of conditions (Items) a Transaction has to satisfy.
     """
     
     def __init__(self, items):
@@ -45,7 +44,7 @@ class Antecedent(ComparableItemSet):
     def __repr__(self):
         str_array = [repr((attr, val)) for attr, val in self.itemset.items()]
         text = ", ".join(str_array)
-        return text
+        return "Antecedent({})".format(text)
     
     def __hash__(self):
         return hash(tuple(self.itemset.items()))

@@ -10,8 +10,9 @@ class M2Algorithm(RuleBuilderAlgorithm):
 
         self.rules.sort(reverse=True)
         
-        self.dataset_len = len(self.dataset)
-        
+        self.dataset_frozen = self.dataset
+        self.dataset_len = len(self.dataset_frozen)
+
         # set of crules that have higher precedence
         # that their corresponding wrules
         self.Q = set()
@@ -36,7 +37,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
     
         
     def stage1(self):
-        for datacase in self.dataset:
+        for datacase in self.dataset_frozen:
             # finds the highest precedence crules and wrules
             crule, wrule = self.maxcoverrule(datacase, self.rules)
         
@@ -89,7 +90,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         rules_list = []
         
         # class distribution
-        classdist = collections.Counter(map(lambda i: i.value, self.dataset.class_labels))
+        classdist = collections.Counter(map(lambda d: d.class_val.value, self.dataset_frozen))
         
         for rule in Qlist:
             if rule.class_cases_covered[rule.consequent.value] > 0:
@@ -121,7 +122,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         min_value = min(total_errors_list)
         
         min_indices = [ idx for (idx, err_num) in enumerate(total_errors_list) if err_num == min_value ]
-        min_idx = min_indices[-1]
+        min_idx = min_indices[0]
         
         final_classifier = [ rule for rule in rules_list[:min_idx + 1] ]
         default_class = default_classes_list[min_idx]
@@ -164,7 +165,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
                     crule = rule
                     if crule and wrule:
                         return crule, wrule
-                elif not wrule:
+                elif rule.consequent != datacase.class_val and not wrule:
                     # save wRule
                     wrule = rule
                     if crule and wrule:
@@ -188,8 +189,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         rule.support_count = sum(rule.class_cases_covered.values()) 
         return rule.support_count - rule.class_cases_covered[rule.consequent.value]
     
-    def update_class_distr(self, classdist, rule):
-        return classdist - rule.class_cases_covered
+    
     
     def select_default_class(self, classdist):
         most_common = classdist.most_common(1)

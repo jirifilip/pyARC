@@ -1,0 +1,12 @@
+dataset,input rows,input rules,output_rules_arc,output_rules_acba,output_rules_rcba,time_arc,time_acba,time_rcba
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,260,100,8,1,9,0.107999999999993,7.202,0.294000000000005
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,520,100,8,1,9,0.113999999999987,7.202,0.282999999999993
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,1040,100,8,1,9,0.130999999999995,7.202,0.315000000000009
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,2080,100,8,1,9,0.172000000000025,7.202,0.383999999999969
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,4160,100,8,1,9,0.307000000000016,7.202,0.511999999999989
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,8320,100,8,1,9,0.71899999999996,7.202,0.847000000000026
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,16640,100,8,1,9,1.08000000000002,7.202,1.55599999999999
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,33280,100,8,1,9,1.97800000000002,7.202,2.76100000000001
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,66560,100,8,1,9,3.76399999999999,7.202,5.55600000000004
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,133120,100,8,1,9,6.25599999999999,7.202,13.299
+c:/code/python/machine_learning/assoc_rules/train/lymph0.csv,266240,100,8,1,9,18.469,7.202,63.958
