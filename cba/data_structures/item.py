@@ -51,9 +51,23 @@ class Item():
         return hash(self) == hash(other)
     
     def __repr__(self):
+        """Method for representing Item as a string.
+
+        >>> item1 = Item("a", 1)
+        >>> repr(item1)
+        >>> Item{(a, 1)}
+        """
+
         return "Item{{{}}}".format(self.__get_tuple())
 
     def string(self):
+        """Method for getting simpler representation.
+        
+        
+        >>> item1 = Item("a", 1)
+        >>> item1.string()
+        >>> a=1
+        """
         return "{}={}".format(*self)
     
     

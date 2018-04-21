@@ -29,13 +29,6 @@ class TestItemClass(unittest.TestCase):
 
         assert item1 == item2
 
-    def test_compare(self):
-        item1 = Item("a", 1)
-        item2 = Item("a", 2)
-
-        assert item1 < item2
-        assert item2 > item1
-
     def test_repr(self):
         item = Item("a", 1)
 

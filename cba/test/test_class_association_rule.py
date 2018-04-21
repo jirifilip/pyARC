@@ -42,7 +42,7 @@ class TestClassAssociationRule(unittest.TestCase):
         sorted_cars = sorted([car1, car2, car3, car4], reverse=True)
         
         assert car1 < car2
-        assert car2 < car3
+        assert car2 > car3
         assert car3 < car2
         assert car4 > car3
         assert car1.antecedent <= transaction1

@@ -3,63 +3,108 @@ from cba.data_structures import (
     Item,
     Antecedent,
     Consequent,
-    ComparableItemSet,
     ClassAssocationRule,
-    Transaction
+    Transaction,
+    TransactionDB
 )
+from cba.algorithms import (
+    createCARs,
+    generateCARs,
+    top_rules,
+    
+)
+from utils import HiddenPrints
 
-class TestClassAssociationRule(unittest.TestCase):
 
-    def test_compare(self):
 
-        row1 = [1, 1, 0]
-        header1 = ["A", "B", "C"]
+class TestRuleGeneration(unittest.TestCase):
 
-        transaction1 = Transaction(row1, header1, ("Class", 0))
 
-        item1 = Item("A", 1)
-        item2 = Item("B", 1)
-        item3 = Item("C", 0)
-        item4 = Item("B", 5)
+    def test_generateCARs(self):
+        header1 = ["A", "B", "Y"]
+        rows1 = [
+            [1, 1, 0],
+            [1, 1, 0],
+            [1, 1, 1],
+            [0, 0, 0],
+            [0, 0, 1],
+            [0, 0, 1]
+        ]
 
-        ant1 = Antecedent([item1, item2])
-        ant2 = Antecedent([item2])
-        ant3 = Antecedent([item3])
-        ant4 = Antecedent([item4])
+        transactionDB1 = TransactionDB(rows1, header1)
 
-        cons1 = Consequent("Y", 1)
-        cons2 = Consequent("Y", 2)
-        cons3 = Consequent("Y", 3)
+        rules = generateCARs(transactionDB1, support=60)
 
-        # len: 2
-        car1 = ClassAssocationRule(ant1, cons1, 0.5, 0.9)
-        # len: 1
-        car2 = ClassAssocationRule(ant2, cons2, 0.5, 0.9)
+        car1 = ClassAssocationRule([], Consequent("Y", 1), support=0.5, confidence=0.5)
+        car1.id = rules[0].id
 
-        car3 = ClassAssocationRule(ant3, cons3, 0.5, 0.9)
-        car4 = ClassAssocationRule(ant4, cons3, 0.5, 1)
+        car2 = ClassAssocationRule([], Consequent("Y", 0), support=0.5, confidence=0.5)
+        car1.id = rules[1].id
 
-        sorted_cars = sorted([car1, car2, car3, car4], reverse=True)
+        car1 == rules[0]
+        car2 == rules[1]
+
+
+
+    def test_createCARs(self):
         
-        assert car1 < car2
-        assert car2 < car3
-        assert car3 < car2
-        assert car4 > car3
-        assert car1.antecedent <= transaction1
-        assert car2.antecedent <= transaction1
-        assert car3.antecedent <= transaction1
-        assert not car4.antecedent <= transaction1
-        assert sorted_cars[0] == car4
+        generated_rules = [
+            ('Y:=:1', (), 0.5, 0.5),
+            ('Y:=:0', (), 0.5, 0.5),
+            ('Y:=:1', ('A:=:1',), 0.5, 1 / 3)
+        ]
 
-    def test_len(self):
-        
-        item1 = Item("A", 1)
-        item2 = Item("B", 1)
+        cars = createCARs(generated_rules)
 
-        ant1 = Antecedent([item1, item2])
+        assert cars[0].consequent == Consequent("Y", 1)
+        assert cars[0].confidence == 0.5
+        assert cars[0].support == 0.5
 
-        cons1 = Consequent("Y", 1)
+        assert cars[1].consequent == Consequent("Y", 0)
+        assert cars[1].confidence == 0.5
+        assert cars[1].support == 0.5
 
-        car1 = ClassAssocationRule(ant1, cons1, 0.5, 0.9)
 
-        assert len(car1) == 3
+        assert cars[2].consequent == Consequent("Y", 1)
+        assert cars[2].antecedent == Antecedent([Item("A", 1)])
+        assert cars[2].confidence == 1 / 3
+        assert cars[2].support == 0.5
+
+
+    def test_top_rules(self):
+        header1 = ["A", "B", "Y"]
+        rows1 = [
+            [1, 1, 0],
+            [1, 1, 0],
+            [1, 1, 1],
+            [0, 0, 0],
+            [0, 0, 1],
+            [0, 0, 1]
+        ]
+
+        transactionDB1 = TransactionDB(rows1, header1)
+
+        rules = None
+        with HiddenPrints():
+            rules = top_rules(transactionDB1.string_representation, appearance=transactionDB1.appeardict)
+
+        expected_rules = [
+            ('Y:=:1', ('A:=:1',), 1/6, 1/3),
+            ('Y:=:0', ('A:=:1',), 1/3, 2/3),
+            ('Y:=:1', ('B:=:1',), 1/6, 1/3),
+            ('Y:=:0', ('B:=:1',), 1/3, 2/3),
+            ('Y:=:1', ('B:=:1', 'A:=:1'), 1/6, 1/3),
+            ('Y:=:0', ('B:=:1', 'A:=:1'), 1/3, 2/3),
+            ('Y:=:1', ('A:=:0',), 1/3, 2/3),
+            ('Y:=:0', ('A:=:0',), 1/6, 1/3),
+            ('Y:=:1', ('B:=:0',), 1/3, 2/3),
+            ('Y:=:0', ('B:=:0',), 1/6, 1/3),
+            ('Y:=:1', ('B:=:0', 'A:=:0'), 1/3, 2/3),
+            ('Y:=:0', ('B:=:0', 'A:=:0'), 1/6, 1/3)
+        ]
+
+        for r in rules:
+            assert r in expected_rules
+
+
+

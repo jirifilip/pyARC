@@ -1,4 +1,6 @@
 class Appearance:
+    """Class for an easy 
+    """
     
     def __init__(self):
         self.lhs = []

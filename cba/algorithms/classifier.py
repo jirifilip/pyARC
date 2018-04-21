@@ -7,7 +7,7 @@ class Classifier:
         pred = self.predict_all(txns)
         actual = txns.classes
 
-        return skmetrics.accuracy_score(pred, actual)
+        return accuracy_score(pred, actual)
 
     def init(self):
         self.rules = []
@@ -53,3 +53,24 @@ class Classifier:
 
         return rules_df
 
+
+
+
+from functools import reduce
+
+def accuracy_score(actual, predicted):
+
+    length = len(actual)
+
+    indices = range(length)
+
+    def reduce_indices(previous, current):
+        i = current
+
+        result = 1 if actual[i] == predicted[i] else 0
+
+        return previous + result
+
+    accuracy = reduce(reduce_indices, indices) / length
+
+    return accuracy

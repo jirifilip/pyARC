@@ -53,7 +53,8 @@ class ClassAssocationRule():
     
     def __len__(self):
         return len(self.antecedent) + len(self.consequent)
-    
+
+
     def __repr__(self):
         args = [self.antecedent.string(), "{" + self.consequent.string() + "}", self.support, self.confidence, self.rulelen, self.rid]
         text = "CAR {} => {} sup: {:.2f} conf: {:.2f} len: {}, id: {}".format(*args)

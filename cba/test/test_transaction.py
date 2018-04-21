@@ -54,4 +54,4 @@ class TestTransaction(unittest.TestCase):
 
         transaction1 = Transaction(row1, header1, ("Y", 0))
 
-        assert transaction1.string_items == ["A=1", "B=1", "C=0", "Y=0"]
+        assert transaction1.string_items == ["A:=:1", "B:=:1", "C:=:0", "Y:=:0"]
