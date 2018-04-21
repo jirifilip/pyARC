@@ -1,5 +1,5 @@
 import pandas as pd
-import sklearn.metrics as skmetrics
+from functools import reduce
 
 class Classifier:
 
@@ -54,9 +54,6 @@ class Classifier:
         return rules_df
 
 
-
-
-from functools import reduce
 
 def accuracy_score(actual, predicted):
 
