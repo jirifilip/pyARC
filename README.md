@@ -1,4 +1,5 @@
 # pyARC
+[![Build Status](https://semaphoreci.com/api/v1/jirifilip/pyarc/branches/working/badge.svg)](https://semaphoreci.com/jirifilip/pyarc)
 
 pyARC is an implementation of CBA (Classification Based on Assocation) algorithm introduced in
 
