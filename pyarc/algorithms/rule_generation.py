@@ -2,12 +2,20 @@ import time
 import fim
 from ..data_structures import Consequent, Item, Antecedent, ClassAssocationRule
 
-"""
-==============================================================================
-CREATE CARS
-==============================================================================
-"""
 def createCARs(rules):
+    """Function for converting output from fim.arules or fim.apriori
+    to a list of ClassAssociationRules
+
+    Parameters
+    ----------
+    rules : output from fim.arules or from generateCARs
+
+
+    Returns
+    -------
+    list of CARs
+
+    """
     CARs = []
     
     for rule in rules:
@@ -26,12 +34,33 @@ def createCARs(rules):
     return CARs
 
 
-"""
-==============================================================================
-GENERATE CARS
-==============================================================================
-"""
 def generateCARs(transactionDB, support=1, confidence=50, maxlen=10, **kwargs):
+    """Function for generating ClassAssociationRules from a TransactionDB
+
+    Parameters
+    ----------
+    transactionDB : TransactionDB
+
+    support : float
+        minimum support in percents if positive
+        absolute minimum support if negative
+
+    confidence : float
+        minimum confidence in percents if positive
+        absolute minimum confidence if negative
+
+    maxlen : int
+        maximum length of mined rules
+
+    **kwargs : 
+        arbitrary number of arguments that will be 
+        provided to the fim.apriori function
+
+    Returns
+    -------
+    list of CARs
+
+    """
     appear = transactionDB.appeardict
     
     rules = fim.apriori(transactionDB.string_representation, supp=support, conf=confidence, target="r", report="sc", appear=appear, **kwargs, zmax=maxlen)
@@ -40,26 +69,6 @@ def generateCARs(transactionDB, support=1, confidence=50, maxlen=10, **kwargs):
     return createCARs(rules)
  
 
-"""
-==============================================================================
-APRIORI
-==============================================================================
-"""
-def apriori(transactionDB, support=1, confidence=50, maxlen=10, **kwargs):
-    appear = transactionDB.appeardict
-    
-    rules = fim.apriori(transactionDB.string_representation, supp=support, conf=confidence, target="r", report="sc", appear=appear, **kwargs, zmax=maxlen)
-    
-    return rules
- 
-
-
-
-"""
-==============================================================================
-TOP RULES
-==============================================================================
-"""
 def top_rules(transactions,
               appearance={},
               target_rule_count=1000,
@@ -70,8 +79,47 @@ def top_rules(transactions,
               minlen=2,
               init_maxlen=3,
               total_timeout=100.,
-              max_iterations=30,
-              trim=True):
+              max_iterations=30):
+    """Function for finding the best n (target_rule_count)
+    rules from transaction list
+
+    Parameters
+    ----------
+    transactions : 2D array of strings
+        e.g. [["a:=:1", "b:=:3"], ["a:=:4", "b:=:2"]]
+
+    appearance : dictionary
+        dictionary specifying rule appearance
+
+    targent_rule_count : int
+        target number of rules to mine
+
+    init_conf : float
+        confidence from which to start mining
+
+    conf_step : float
+
+    supp_step : float
+
+    minen : int
+        minimum len of rules to mine
+
+    init_maxlen : int
+        maxlen from which to start mining
+
+    total_timeout : float
+        maximum execution time of the function
+
+    max_iterations : int
+        maximum iterations to try before stopping
+        execution
+
+
+    Returns
+    -------
+    list of mined rules. The rules are not ordered.
+
+    """
     
     starttime = time.time()
     

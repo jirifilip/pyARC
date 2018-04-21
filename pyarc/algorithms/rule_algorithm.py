@@ -1,4 +1,8 @@
 class RuleBuilderAlgorithm:
+    """Common ancestor for M1 and M2 Algorithms
+    to provide common interface.
+    """
+
     def __init__(self, rules, dataset):
         self.rules = rules
         self.dataset = dataset

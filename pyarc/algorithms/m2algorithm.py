@@ -141,6 +141,9 @@ class M2Algorithm(RuleBuilderAlgorithm):
         
     
     def emptyrule(self):
+        """returns rule with empty antecedent
+        and consequent
+        """
         return ClassAssocationRule(Antecedent([]), Consequent(None, None), 0, 0)
     
     
@@ -150,12 +153,11 @@ class M2Algorithm(RuleBuilderAlgorithm):
         the case d
         
         
-        arguments:
-            rules: sorted rules
-            datacase: instance d
-            sameclass:
-                if we are looking for rules
-                with the same class as datacase
+        Arguments
+        ---------
+        rules: sorted rules
+            
+        datacase: instance d
             
         """
         crule, wrule = None, None
@@ -180,6 +182,10 @@ class M2Algorithm(RuleBuilderAlgorithm):
     
     
     def allcover_rules(self, U, datacase, crule):
+        """method for finding all rules from a set U
+        that cover datacase and have a higher precedence
+        tha crule
+        """
         wset = set()
         
         for replacingrule in U:
@@ -189,12 +195,18 @@ class M2Algorithm(RuleBuilderAlgorithm):
         return wset
     
     def errors_of_rule(self, rule):
+        """method for computing errors of
+        a rule
+        """
         rule.support_count = sum(rule.class_cases_covered.values()) 
         return rule.support_count - rule.class_cases_covered[rule.consequent.value]
     
     
     
     def select_default_class(self, classdist):
+        """method for selecting default class
+        from class distribution
+        """
         most_common = classdist.most_common(1)
         
         if not most_common:

@@ -7,17 +7,25 @@ class Classifier:
     class labels based on a list of rules.
     """
 
+    def __init__(self):
+        self.rules = []
+        self.default_class = None
+
+
     def test_transactions(self, txns):
+        """Takes a TransactionDB and outputs
+        accuracy of the classifier
+        """
         pred = self.predict_all(txns)
         actual = txns.classes
 
         return accuracy_score(pred, actual)
-
-    def init(self):
-        self.rules = []
-        self.default_class = None
+    
         
     def predict(self, datacase):
+        """predicts target class of one 
+        datacase
+        """
         for rule in self.rules:
             if rule.antecedent <= datacase:
                 return rule.consequent.value
@@ -25,6 +33,9 @@ class Classifier:
         return self.default_class    
         
     def predict_all(self, dataset):
+        """predicts target class of an array
+        of datacases
+        """
         predicted = []
         
         for datacase in dataset:
@@ -34,6 +45,9 @@ class Classifier:
 
 
     def inspect(self):
+        """inspect uses pandas DataFrame to
+        display information about the classifier
+        """
         
         dictionary = {
             "lhs": [],
@@ -60,6 +74,9 @@ class Classifier:
 
 
 def accuracy_score(actual, predicted):
+    """Function for determining accuracy given
+    list of predicted classes and actual classes
+    """
 
     length = len(actual)
 
