@@ -1,4 +1,4 @@
-from cba import CBA
-from cba.data_structures import TransactionDB
+import pyarc
 
-import cba
+from pyarc import CBA
+from pyarc import TransactionDB

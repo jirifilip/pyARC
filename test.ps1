@@ -1,1 +1,0 @@
-python -m unittest discover -s cba/test  -p '*test_*.py'
