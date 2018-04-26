@@ -1,5 +1,6 @@
 # pyARC
 [![Build Status](https://semaphoreci.com/api/v1/jirifilip/pyarc/branches/working/badge.svg)](https://semaphoreci.com/jirifilip/pyarc)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 pyARC is an implementation of CBA (Classification Based on Assocation) algorithm introduced in
 
@@ -27,9 +28,10 @@ Simplest example
 
 ```python
 from pyarc import CBA, TransactionDB
+import pandas as pd
 
-data_train = pd.read_csv("train-data.csv")
-data_test = pd.read_csv("test-data.csv")
+data_train = pd.read_csv("iris.csv")
+data_test = pd.read_csv("iris.csv")
 
 txns_train = TransactionDB.from_DataFrame(data_train)
 txns_test = TransactionDB.from_DataFrame(data_test)
@@ -50,10 +52,11 @@ from pyarc.algorithms import (
     createCARs,
     M1Algorithm
 )
+import pandas as pd
 
 
-data_train = pd.read_csv("train-data.csv")
-data_test = pd.read_csv("test-data.csv")
+data_train = pd.read_csv("iris.csv")
+data_test = pd.read_csv("iris.csv")
 
 txns_train = TransactionDB.from_DataFrame(data_train)
 txns_test = TransactionDB.from_DataFrame(data_test)
