@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
   name = 'pyarc',
-  packages = ['pyarc', "pyarc.data_structures", "pyarc.algorithms", "pyarc.qcba"],
+  packages = ['pyarc', "pyarc.data_structures", "pyarc.algorithms", "pyarc.qcba", "pyarc.utils"],
   version = '1.0.8',
   description = 'An implementation of CBA algorithm',
   author = 'Jiří Filip',
