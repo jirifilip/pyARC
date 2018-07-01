@@ -5,9 +5,7 @@ class RuleReffiter:
         
     def refit(self, quant_rules):
         for quant_rule in quant_rules:
-            print("=======")
             self.process_rule(quant_rule)
-            print("=======")
             
         return quant_rules
             

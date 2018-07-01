@@ -20,9 +20,9 @@ class CBA():
         if algorithm not in ["m1", "m2"]:
             raise Exception("algorithm parameter must be either 'm1' or 'm2'")
         if 0 > support or support > 1:
-            raise Exception("support must best on the interval <0;1>")
+            raise Exception("support must be on the interval <0;1>")
         if 0 > confidence or confidence > 1:
-            raise Exception("confidence must best on the interval <0;1>")
+            raise Exception("confidence must be on the interval <0;1>")
         if maxlen < 1:
             raise Exception("maxlen cannot be negative or 0")
         

@@ -28,7 +28,7 @@ def lesserthan(a, b, inclusivity):
 
 class Interval:
 
-    interval_regex = re.compile("(<|\()(\d+);(\d+)(\)|>)")
+    interval_regex = re.compile("(<|\()(\d+(?:\.(?:\d)+)?);(\d+(?:\.(?:\d)+)?)(\)|>)")
     
     def __init__(self, interval_string="<0;0)"):
         try:
