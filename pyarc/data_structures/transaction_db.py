@@ -42,6 +42,7 @@ class TransactionDB:
         
         TransactionClass = UniqueTransaction if unique_transactions else Transaction
         
+        self._dataset_param = dataset
         self.header = header
         self.class_labels = []
         
