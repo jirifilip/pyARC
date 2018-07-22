@@ -1,3 +1,9 @@
+import pandas
+import numpy as np
+
+from ..data_structures import QuantitativeDataFrame, Interval
+
+
 class RuleLiteralPruner:
     
     def __init__(self, quantitative_dataframe):
@@ -21,9 +27,10 @@ class RuleLiteralPruner:
     
     
     def __trim(self, rule):
+        """
         if type(rule) != QuantitativeCAR:
             raise Exception("type of rule must be QuantClassAssociationRule")
-
+        """
             
         attr_removed = False
     

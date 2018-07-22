@@ -1,4 +1,7 @@
 import pandas
+import numpy as np
+
+from ..data_structures import QuantitativeDataFrame, Interval
 
 class RuleExtender:
     

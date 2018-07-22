@@ -1,6 +1,13 @@
 import collections
 from scipy import stats
 
+import pandas
+import pandas as pd
+import numpy as np
+
+from ..data_structures import QuantitativeDataFrame, Interval
+
+
 class RulePostPruner:
     
     def __init__(self, quantitative_dataset):

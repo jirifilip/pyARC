@@ -2,6 +2,7 @@
 import copy
 
 from .interval_reader import IntervalReader
+from .quant_dataset import QuantitativeDataFrame
 
 class QuantitativeCAR:
     
@@ -51,7 +52,7 @@ class QuantitativeCAR:
         
         """
         
-        if type(quant_dataframe.__class__.__name__) != "QuantitativeDataFrame":
+        if quant_dataframe.__class__.__name__ != "QuantitativeDataFrame":
             raise Exception(
                 "type of quant_dataframe must be QuantitativeDataFrame"
             )
@@ -67,6 +68,15 @@ class QuantitativeCAR:
     
     def copy(self):
         return copy.deepcopy(self)
+
+
+    def __deepcopy__(self, memo):
+
+        copied = copy.copy(self)
+        copied.antecedent = copy.deepcopy(self.antecedent)
+        copied.consequent = copy.deepcopy(self.consequent)
+
+        return copied
         
         
     def __repr__(self):

@@ -1,3 +1,9 @@
+import pandas
+import numpy as np
+
+from ..data_structures import QuantitativeDataFrame, Interval, QuantitativeCAR
+
+
 class RuleTrimmer:
     """Trims the rule
     """
@@ -15,9 +21,11 @@ class RuleTrimmer:
     
     
     def __trim(self, rule):
+
+        """
         if type(rule) != QuantitativeCAR:
             raise Exception("type of rule must be QuantClassAssociationRule")
-
+        """
             
         covered_by_antecedent_mask, covered_by_consequent_mask = self.__dataframe.find_covered_by_rule_mask(rule)
         

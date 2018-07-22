@@ -1,3 +1,9 @@
+import pandas
+import numpy as np
+
+from ..data_structures import QuantitativeDataFrame, Interval
+
+
 class RuleRefitter:
     """Refits the rule to a finer grid
     """
