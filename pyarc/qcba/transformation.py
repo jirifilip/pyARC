@@ -19,6 +19,7 @@ class QCBATransformation:
         self.trimmer = RuleTrimmer(self.dataset)
         self.extender = RuleExtender(self.dataset)
         self.post_pruner = RulePostPruner(self.dataset)
+        self.overlap_pruner = RuleOverlapPruner(self.dataset)
 
 
     def transform(self, rules):

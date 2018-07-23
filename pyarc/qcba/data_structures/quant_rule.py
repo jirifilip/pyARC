@@ -31,7 +31,7 @@ class QuantitativeCAR:
         for literal in antecedent:
             attribute, value = literal
             
-            interval = self.interval_reader.read(value)
+            interval = QuantitativeCAR.interval_reader.read(value)
             
             interval_antecedent.append((attribute, interval))
         

@@ -50,13 +50,13 @@ def plot_qrule(qrule, plt):
     lower_x = 0
     area_x = budget_bins[-1]
     
-    antecedent = qrule.new_antecedent
+    antecedent = qrule.antecedent
     
     
     if len(antecedent) != 0:
         if antecedent[0][0] == "a-list-celebrities":
             y = antecedent[0]
-            y_boundaries = re.search(interval_regex, y[1].string())
+            y_boundaries = re.search(interval_regex, repr(y[1]))
             lower_y = float(y_boundaries.group(1))
             upper_y = float(y_boundaries.group(2))
             area_y = upper_y - lower_y
@@ -64,7 +64,7 @@ def plot_qrule(qrule, plt):
             axis = plt.gca()
         else:
             x = antecedent[0]
-            x_boundaries = re.search(interval_regex, x[1].string())
+            x_boundaries = re.search(interval_regex, repr(x[1]))
             lower_x = float(x_boundaries.group(1))
             upper_x = float(x_boundaries.group(2))
             area_x = upper_x - lower_x
@@ -72,7 +72,7 @@ def plot_qrule(qrule, plt):
     if len(antecedent) > 1:
         if antecedent[1][0] == "a-list-celebrities":
             y = antecedent[0]
-            y_boundaries = re.search(interval_regex, y[1].string())
+            y_boundaries = re.search(interval_regex, repr(y[1]))
             lower_y = float(y_boundaries.group(1))
             upper_y = float(y_boundaries.group(2))
             area_y = upper_y - lower_y
@@ -80,7 +80,7 @@ def plot_qrule(qrule, plt):
             axis = plt.gca()
         else:
             x = antecedent[1]
-            x_boundaries = re.search(interval_regex, x[1].string())
+            x_boundaries = re.search(interval_regex, repr(x[1]))
             lower_x = float(x_boundaries.group(1))
             upper_x = float(x_boundaries.group(2))
             area_x = upper_x - lower_x
@@ -88,10 +88,10 @@ def plot_qrule(qrule, plt):
     
     axis = plt.gca()
 
-    class_name = qrule.rule.consequent[1]
+    class_name = qrule.consequent[1]
     
     axis.add_patch(
-       patches.Rectangle((lower_x, lower_y), area_x, area_y, zorder=-2, facecolor=rule_appearance[class_name], alpha=qrule.rule.confidence)
+       patches.Rectangle((lower_x, lower_y), area_x, area_y, zorder=-2, facecolor=rule_appearance[class_name], alpha=qrule.confidence)
     )
 
 

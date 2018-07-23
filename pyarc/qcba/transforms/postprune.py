@@ -111,7 +111,6 @@ class RulePostPruner:
                 if total_errors_with_default < lowest_total_error:
                     cutoff_rule = rule
                     lowest_total_error = total_errors_with_default
-                    print(default_class)
                     cutoff_class = default_class
         
         
