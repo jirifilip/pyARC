@@ -1,3 +1,4 @@
+README.md
 setup.cfg
 setup.py
 pyarc/CBA.py
@@ -22,3 +23,8 @@ pyarc/data_structures/consequent.py
 pyarc/data_structures/item.py
 pyarc/data_structures/transaction.py
 pyarc/data_structures/transaction_db.py
+pyarc/qcba/__init__.py
+pyarc/qcba/classifier.py
+pyarc/qcba/transformation.py
+pyarc/utils/__init__.py
+pyarc/utils/plotting.py

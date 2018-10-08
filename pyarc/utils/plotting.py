@@ -6,6 +6,8 @@ import pandas as pd
 import numpy
 import re
 
+
+
 movies = pd.read_csv("../data/movies.csv", sep=";")
 movies_discr = movies.copy(True)
 

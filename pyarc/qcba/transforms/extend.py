@@ -38,9 +38,12 @@ class RuleExtender:
         current_best = rule
         direct_extensions = self.__get_extensions(rule)
         
+        current_best.update_properties(self.__dataframe)
         
         while True:
             extension_succesful = False
+
+            direct_extensions = self.__get_extensions(current_best)
             
             for candidate in direct_extensions:
                 
