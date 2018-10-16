@@ -67,6 +67,9 @@ class Interval:
     
     def isin(self, value):
         return self.test_membership([value])[0]
+
+    def overlaps_with(self, other):
+        return self.isin(other.minval) or self.isin(other.maxval)
         
 
     def string(self):

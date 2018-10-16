@@ -70,7 +70,7 @@ class RuleOverlapPruner:
         """Transaction based
         """
         
-        new_rules = []
+        new_rules = [ rule for rule in rules ]
         
         for idx, rule in enumerate(rules):
             
@@ -111,13 +111,21 @@ class RuleOverlapPruner:
                 at_least_one_attribute_disjunct = False
                 
                 for literal in literals_in_clash_shared_att:
-                    attribute, value = literal
+                    attribute, interval = literal
                     
                     temp_literal = attribute, literals[attribute]
+
+                    if not interval.overlaps_with(temp_literal[1]):
+                        at_least_one_attribute_disjunct = True
+                        break
+
+                    
+                if at_least_one_attribute_disjunct == False:
+                    clashing_rule_found == True
                     
                     
                     
-            if non_empty_intersection == False:
+            if clashing_rule_found == False:
                 new_rules.remove(rule)
                 
             
