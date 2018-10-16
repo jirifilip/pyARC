@@ -13,4 +13,5 @@ class Consequent(Item, ComparableItemSet):
         return 1
     
     def __repr__(self):
-        return "Consequent{{{}}}".format(self._get_tuple())
+        item_tuple = self.attribute, self.value
+        return "Consequent{{{}}}".format(item_tuple)

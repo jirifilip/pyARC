@@ -10,52 +10,62 @@ class RuleOverlapPruner:
         self.__dataframe = quantitative_dataset
         
         
-    def transform(self, rules, default_class):
+    def transform(self, rules, default_class, transaction_based=True):
         copied_rules = [ rule.copy() for rule in rules ]
 
-        pruned_rules = self.prune_transaction_based(copied_rules, default_class)        
-        
+        pruned_rules = copied_rules
+
+        if transaction_based:
+            pruned_rules = self.prune_transaction_based(copied_rules, default_class)        
+        else:
+            pruned_rules = self.prune_range_based(copied_rules, default_class)
+
         return pruned_rules
     
     def prune_transaction_based(self, rules, default_class):
         """Transaction based
         """
         
-        new_rules = []
+        new_rules = [ rule for rule in rules ]
         
         for idx, rule in enumerate(rules):
             
             rule_classname, rule_classval = rule.consequent
             
-            if rule_classval == default_class:
+            if rule_classval != default_class:
+                print("not including", rule)
                 continue
-                
-                
+
+            print(rule)            
+
             correctly_covered_antecedent, correctly_covered_consequent = self.__dataframe.find_covered_by_rule_mask(rule)
             correctly_covered = correctly_covered_antecedent & correctly_covered_consequent
+
+            print(correctly_covered)
             
             non_empty_intersection = False
             
-            for candidate_clash in rules[:idx]:
+            for candidate_clash in rules[idx:]:
                 
                 cand_classname, cand_classval = candidate_clash.consequent
                 
                 if cand_classval == default_class:
                     continue
                     
-                    
+                print(candidate_clash)    
                 cand_clash_covered_antecedent, cand_clash_covered_consequent = self.__dataframe.find_covered_by_rule_mask(candidate_clash)
                 
+                print("any", any(cand_clash_covered_antecedent & correctly_covered))
                 
                 if any(cand_clash_covered_antecedent & correctly_covered):
                     non_empty_intersection = True
                     break
                     
-            if non_empty_intersection == True:
-                new_rules.append(rule)
+            if non_empty_intersection == False:
+                new_rules.remove(rule)
                 
             
-            return new_rules
+        return new_rules
         
     
     
@@ -73,10 +83,9 @@ class RuleOverlapPruner:
             
             rule_classname, rule_classval = rule.consequent
             
-            if rule_classval == default_class:
+            if rule_classval != default_class:
                 continue
-                
-                
+                            
             literals = dict(rule.antecedent)
             attributes = literals.keys()
 
@@ -89,8 +98,7 @@ class RuleOverlapPruner:
             non_empty_intersection = False
             
             
-            
-            for candidate_clash in rules[:idx]:
+            for candidate_clash in rules[idx:]:
                 
                 cand_classname, cand_classval = candidate_clash.consequent
                 
@@ -116,8 +124,8 @@ class RuleOverlapPruner:
                     
                     
                     
-            if non_empty_intersection == True:
-                new_rules.append(rule)
+            if non_empty_intersection == False:
+                new_rules.remove(rule)
                 
             
         return new_rules

@@ -204,8 +204,6 @@ class QuantitativeDataFrame:
             # add cummulated and current mask using logical AND
             cummulated_mask &= current_mask
             
-            
-        
         
         instances_satisfying_antecedent = self.__dataframe[cummulated_mask].index
         instances_satisfying_antecedent_count = instances_satisfying_antecedent.size
@@ -223,7 +221,7 @@ class QuantitativeDataFrame:
         instances_satisfying_consequent_count = self.__dataframe[instances_satisfying_consequent_mask].index.size
         
         # instances satisfying consequent both antecedent and consequent 
-        support = instances_satisfying_consequent_and_antecedent_count / dataset_size
+        support = instances_satisfying_antecedent_count / dataset_size
         confidence = instances_satisfying_consequent_and_antecedent_count / instances_satisfying_antecedent_count
         
         return support, confidence

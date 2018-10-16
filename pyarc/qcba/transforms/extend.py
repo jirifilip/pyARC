@@ -123,7 +123,9 @@ class RuleExtender:
                 copied_rule.extended_literal = extended_literal
                 
                 extended_rules.append(copied_rule)
-                
+
+        extended_rules.sort(reverse=True)
+             
         return extended_rules
             
     

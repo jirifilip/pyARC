@@ -84,11 +84,11 @@ class RulePostPruner:
             # dataset -= covered_antecedent
             #dataset_mask = dataset_mask & np.logical_not(covered_antecedent)
 
-            correctly_covered = covered_antecedent & covered_consequent & dataset_mask
+            correctly_covered = covered_antecedent & covered_consequent
             
             #print("correctly covered from mask", np.sum(correctly_covered & dataset_mask))
             
-            if not any(correctly_covered & dataset_mask):
+            if not any(correctly_covered):
                 rules.remove(rule)
             else:
                 misclassified = np.sum(covered_antecedent) - np.sum(correctly_covered)
@@ -96,10 +96,12 @@ class RulePostPruner:
                 total_errors_without_default += misclassified
                 
                 # dataset -= covered_antecedent
+                #dataset_mask = np.logical_not(dataset_mask & covered_antecedent)
                 dataset_mask = dataset_mask & np.logical_not(covered_antecedent)
-                
+
+
                 modified_dataset = dataset[dataset_mask]
-                class_values = self.__dataframe.dataframe["class"][dataset_mask].values
+                class_values = self.__dataframe.dataframe.iloc[:,-1][dataset_mask].values
                 
                 default_class, default_class_count = self.get_most_frequent_from_numpy(class_values)
                 
@@ -107,12 +109,16 @@ class RulePostPruner:
                 default_rule_error = np.sum(dataset_mask) - default_class_count
                 total_errors_with_default = default_rule_error + total_errors_without_default
                 
+   
                 
                 if total_errors_with_default < lowest_total_error:
                     cutoff_rule = rule
                     lowest_total_error = total_errors_with_default
                     cutoff_class = default_class
         
+
+
+  
         
         # remove all rules below cutoff rule
         index_to_cut = rules.index(cutoff_rule)
