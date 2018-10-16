@@ -33,16 +33,11 @@ class RuleOverlapPruner:
             rule_classname, rule_classval = rule.consequent
             
             if rule_classval != default_class:
-                print("not including", rule)
                 continue
-
-            print(rule)            
 
             correctly_covered_antecedent, correctly_covered_consequent = self.__dataframe.find_covered_by_rule_mask(rule)
             correctly_covered = correctly_covered_antecedent & correctly_covered_consequent
 
-            print(correctly_covered)
-            
             non_empty_intersection = False
             
             for candidate_clash in rules[idx:]:
@@ -52,10 +47,8 @@ class RuleOverlapPruner:
                 if cand_classval == default_class:
                     continue
                     
-                print(candidate_clash)    
                 cand_clash_covered_antecedent, cand_clash_covered_consequent = self.__dataframe.find_covered_by_rule_mask(candidate_clash)
                 
-                print("any", any(cand_clash_covered_antecedent & correctly_covered))
                 
                 if any(cand_clash_covered_antecedent & correctly_covered):
                     non_empty_intersection = True
