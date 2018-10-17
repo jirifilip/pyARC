@@ -91,7 +91,7 @@ class RulePostPruner:
             if not any(correctly_covered):
                 rules.remove(rule)
             else:
-                misclassified = np.sum(covered_antecedent) - np.sum(correctly_covered)
+                misclassified = np.sum(covered_antecedent & dataset_mask) - np.sum(correctly_covered & dataset_mask)
                 
                 total_errors_without_default += misclassified
                 

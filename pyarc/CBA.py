@@ -46,7 +46,7 @@ class CBA():
         accuracy of the classifier
         """
         if not self.clf:
-            raise Exception("CBA must be train using fit method first")
+            raise Exception("CBA must be trained using fit method first")
         if not isinstance(txns, TransactionDB):
             raise Exception("txns must be of type TransactionDB")
 

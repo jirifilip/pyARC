@@ -1,5 +1,5 @@
 from .data_structures import QuantitativeDataFrame
-
+from sklearn.metrics import accuracy_score
 
 class QuantitativeClassifier:
     
@@ -8,7 +8,12 @@ class QuantitativeClassifier:
         self.default_class = default_class
         
         
-    def test(self, quantitative_dataframe):
+    def rule_model_accuracy(self, quantitative_dataframe, ground_truth):
+        predicted = self.predict(quantitative_dataframe)
+
+        return accuracy_score(predicted, ground_truth)
+
+    def predict(self, quantitative_dataframe):
         predicted_classes = []
     
         for _, row in quantitative_dataframe.dataframe.iterrows():

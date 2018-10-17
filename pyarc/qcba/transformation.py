@@ -11,7 +11,9 @@ from .transforms import (
 class QCBATransformation:
 
 
-    def __init__(self, quantitative_dataset):
+    def __init__(self, quantitative_dataset, transaction_based_drop=True):
+        self.transaction_based_drop = transaction_based_drop
+
         self.dataset = quantitative_dataset
 
         self.refitter = RuleRefitter(self.dataset)
@@ -28,6 +30,7 @@ class QCBATransformation:
         trimmed = self.trimmer.transform(literal_pruned)
         extended = self.extender.transform(trimmed)
         post_pruned, default_class = self.post_pruner.transform(extended)
+        overlap_pruned = self.overlap_pruner.transform(post_pruned, default_class, transaction_based=self.transaction_based_drop)
 
-        return post_pruned, default_class
+        return overlap_pruned, default_class
 
