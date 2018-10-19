@@ -31,9 +31,13 @@ class QuantitativeCAR:
         for literal in antecedent:
             attribute, value = literal
             
-            interval = QuantitativeCAR.interval_reader.read(value)
+            # catch error if attribute is ordinal
+            try:
+                interval = QuantitativeCAR.interval_reader.read(value)
             
-            interval_antecedent.append((attribute, interval))
+                interval_antecedent.append((attribute, interval))
+            except:
+                interval_antecedent.append((attribute, value))
         
         
         return self.__sort_antecedent(interval_antecedent)

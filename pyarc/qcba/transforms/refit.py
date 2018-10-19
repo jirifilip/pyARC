@@ -25,6 +25,10 @@ class RuleRefitter:
 
         for idx, literal in enumerate(rule.antecedent):
             attribute, interval = literal
+
+            # if nominal
+            if type(interval) == str:
+                continue
         
             current_attribute_values = self.__dataframe.column(attribute)
 

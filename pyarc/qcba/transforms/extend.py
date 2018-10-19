@@ -1,5 +1,6 @@
 import pandas
 import numpy as np
+import math
 
 from ..data_structures import QuantitativeDataFrame, Interval
 
@@ -19,8 +20,26 @@ class RuleExtender:
     def transform(self, rules):
         
         copied_rules = [ rule.copy() for rule in rules ]
-        
-        extended_rules = [ self.__extend(rule) for rule in copied_rules ]
+
+        progress_bar_len = 50
+        copied_rules_len = len(copied_rules)
+        progress_bar = "#" * progress_bar_len
+        progress_bar_empty = " " * progress_bar_len
+        last_progress_bar_idx = -1
+
+        extended_rules = []
+
+        for i, rule in enumerate(copied_rules):
+            current_progress_bar_idx = math.floor(i / copied_rules_len * progress_bar_len)
+            
+            if last_progress_bar_idx != current_progress_bar_idx:
+                last_progress_bar_idx = current_progress_bar_idx
+                
+                progress_string = "[" + progress_bar[:last_progress_bar_idx] + progress_bar_empty[last_progress_bar_idx:] + "]"
+                
+                print(*progress_string, sep="")
+
+            extended_rules.append(self.__extend(rule))
         
         return extended_rules
     
@@ -46,7 +65,6 @@ class RuleExtender:
             direct_extensions = self.__get_extensions(current_best)
             
             for candidate in direct_extensions:
-                
                 candidate.update_properties(self.__dataframe)
                 
                 delta_confidence = candidate.confidence - current_best.confidence
@@ -136,6 +154,11 @@ class RuleExtender:
         """
         
         attribute, interval = literal
+
+        # if nominal
+        # needs correction to return null and skip when extending
+        if type(interval) == str:
+            return [literal]
         
         vals = self.__dataframe.column(attribute)
         vals_len = vals.size

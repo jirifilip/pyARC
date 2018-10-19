@@ -39,6 +39,10 @@ class RuleTrimmer:
         for idx, literal in enumerate(antecedent):
 
             attribute, interval = literal
+
+            # if nominal
+            if type(interval) == str:
+                continue
             
             current_column = correctly_covered_by_r[[attribute]].values
             current_column_unique = np.unique(current_column)

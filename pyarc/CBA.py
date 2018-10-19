@@ -1,4 +1,10 @@
-from .algorithms import M1Algorithm, M2Algorithm, generateCARs
+from .algorithms import (
+    M1Algorithm,
+    M2Algorithm,
+    generateCARs,
+    createCARs,
+    top_rules
+)
 from .data_structures import TransactionDB
 
 class CBA():
@@ -52,7 +58,7 @@ class CBA():
 
         return self.clf.test_transactions(txns)
         
-    def fit(self, transactions):
+    def fit(self, transactions, top_rules_args={}):
         """Trains the model based on input transaction
         and returns self.
         """
@@ -61,7 +67,13 @@ class CBA():
 
         used_algorithm = self.available_algorithms[self.algorithm]
         
-        cars = generateCARs(transactions, support=self.support, confidence=self.confidence, maxlen=self.maxlen)
+        cars = None
+
+        if not top_rules_args:
+            cars = generateCARs(transactions, support=self.support, confidence=self.confidence, maxlen=self.maxlen)
+        else:
+            rules = top_rules(transactions.string_representation, appearance=transactions.appeardict, **top_rules_args) 
+            cars = createCARs(rules)
 
         self.clf = used_algorithm(cars, transactions).build()
         
