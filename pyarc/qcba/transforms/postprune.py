@@ -102,8 +102,11 @@ class RulePostPruner:
 
                 modified_dataset = dataset[dataset_mask]
                 class_values = self.__dataframe.dataframe.iloc[:,-1][dataset_mask].values
+
+                default_class, default_class_count = self.__dataframe.dataframe.iloc[1,-1], 0
                 
-                default_class, default_class_count = self.get_most_frequent_from_numpy(class_values)
+                if len(class_values) > 0:
+                    default_class, default_class_count = self.get_most_frequent_from_numpy(class_values)
                 
                 # don't forget to update dataset length
                 default_rule_error = np.sum(dataset_mask) - default_class_count
