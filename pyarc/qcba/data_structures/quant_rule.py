@@ -85,7 +85,14 @@ class QuantitativeCAR:
         
     def __repr__(self):
         ant = self.antecedent
-        ant_string_arr = [ key + "=" + val.string() for key, val in ant ]
+
+        ant_string_arr = []
+        for key, val in ant:
+            if type(val) == str:
+                ant_string_arr.append("{}={}".format(key, val))
+            else:
+                ant_string_arr.append("{}={}".format(key, val.string()))
+
         ant_string = "{" + ",".join(ant_string_arr) + "}"
         
         args = [

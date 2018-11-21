@@ -266,7 +266,12 @@ class QuantitativeDataFrame:
         if literal_key in self.__literal_cache:
             mask = self.__literal_cache.get(literal_key)
         else:
-            mask = interval.test_membership(values)
+            mask = None
+
+            if type(interval) == str:
+                mask = values == interval
+            else:
+                mask = interval.test_membership(values)
             
             self.__literal_cache.insert(literal_key, mask)
             

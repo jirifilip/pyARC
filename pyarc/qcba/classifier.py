@@ -24,8 +24,13 @@ class QuantitativeClassifier:
 
                 for name, value in row.iteritems():
                     if name in antecedent_dict:
-                        result = antecedent_dict[name].isin(value)
-                        counter &= result
+                        interval = antecedent_dict[name]
+
+                        if type(interval) == str:
+                            counter &= interval == value
+                        else:
+                            result = interval.isin(value)
+                            counter &= result
 
                 if counter:
                     _, predicted_class = rule.consequent

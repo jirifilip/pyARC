@@ -29,6 +29,8 @@ class RuleExtender:
 
         extended_rules = []
 
+        #print("len: ", copied_rules_len)
+
         for i, rule in enumerate(copied_rules):
             current_progress_bar_idx = math.floor(i / copied_rules_len * progress_bar_len)
             
@@ -63,8 +65,11 @@ class RuleExtender:
             extension_succesful = False
 
             direct_extensions = self.__get_extensions(current_best)
+
+            #print("extending - new cycle")
             
             for candidate in direct_extensions:
+                #print("\tcandidate - direct extensions")
                 candidate.update_properties(self.__dataframe)
                 
                 delta_confidence = candidate.confidence - current_best.confidence
@@ -81,7 +86,6 @@ class RuleExtender:
                     enlargement = candidate
                     
                     while True:
-                        
                         enlargement = self.get_beam_extensions(enlargement)
                         
                         if not enlargement:
@@ -205,8 +209,6 @@ class RuleExtender:
         extensions = []
 
         if not no_left_extension:
-            extension = new_left_bound, interval.maxval
-            
             # when values are [1, 2, 3, 3, 4, 5]
             # and the corresponding interval is (2, 4)
             # instead of resulting interval being (1, 4)
@@ -221,7 +223,6 @@ class RuleExtender:
             extensions.append((attribute, temp_interval))
 
         if not no_right_extension:
-            extensoin = interval.minval, new_right_bound
 
             temp_interval = Interval(
                 interval.minval,
