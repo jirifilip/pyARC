@@ -221,8 +221,12 @@ class QuantitativeDataFrame:
         instances_satisfying_consequent_count = self.__dataframe[instances_satisfying_consequent_mask].index.size
         
         # instances satisfying consequent both antecedent and consequent 
+
         support = instances_satisfying_antecedent_count / dataset_size
-        confidence = instances_satisfying_consequent_and_antecedent_count / instances_satisfying_antecedent_count
+        
+        confidence = 0
+        if instances_satisfying_antecedent_count != 0:
+            confidence = instances_satisfying_consequent_and_antecedent_count / instances_satisfying_antecedent_count
         
         return support, confidence
     
@@ -269,7 +273,7 @@ class QuantitativeDataFrame:
             mask = None
 
             if type(interval) == str:
-                mask = values == interval
+                mask = np.array([ val == interval for val in values ])
             else:
                 mask = interval.test_membership(values)
             
