@@ -38,7 +38,7 @@ class QCBATransformation:
         else:
             print("applying selected transformations")
             transformed_rules = rules
-
+ 
             if transformation_dict.get("refitting", False):
                 print("refitting")
                 transformed_rules = self.refitter.transform(transformed_rules)

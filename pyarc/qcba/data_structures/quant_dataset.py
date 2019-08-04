@@ -41,6 +41,7 @@ class QuantitativeDataFrame:
         
         
         self.__dataframe = dataframe
+        self.__dataframe.iloc[:,-1] = self.__dataframe.iloc[:,-1].astype(str)
         
         # sorted and unique columns of the dataframe
         # saved as a numpy array
@@ -77,6 +78,8 @@ class QuantitativeDataFrame:
         
         # todo: compute only once to make function faster
         dataset_size = self.__dataframe.index.size
+
+        cummulated_mask = np.ones(dataset_size).astype(bool)
         
         for literal in antecedent:
             attribute, interval = literal
@@ -92,6 +95,8 @@ class QuantitativeDataFrame:
             
             # add cummulated and current mask using logical AND
             cummulated_mask &= current_mask
+
+        return cummulated_mask
     
     
     def find_covered_by_literal_mask(self, literal):
@@ -236,7 +241,8 @@ class QuantitativeDataFrame:
         attribute, value = consequent
         
         class_column = self.__dataframe[[attribute]].values
-        
+        class_column = class_column.astype(str)
+
         literal_key = "{}={}".format(attribute, value)
 
         mask = []
