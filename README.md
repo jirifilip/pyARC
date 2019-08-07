@@ -10,6 +10,17 @@ pyARC is an implementation of CBA (Classification Based on Assocation) algorithm
 
 The [pyFIM](http://www.borgelt.net/pyfim.html) package is used for the rule generation step. 
 
+ If you find this package useful in your research, please consider citing:
+
+```
+ @techreport{filip2018classification,
+  title={Classification based on Associations (CBA)-a performance analysis},
+  author={Filip, Ji{\v{r}}{\'\i} and Kliegr, Tom{\'a}{\v{s}}},
+  year={2018},
+  institution={EasyChair}
+}
+```
+
 
 ## Instalation
 ```
