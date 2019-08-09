@@ -4,11 +4,21 @@ from .classifier import QuantitativeClassifier
 
 class QCBA:
 
-    def __init__(self, cba_rule_model, quantitative_dataset):
-        self.cba_rule_model = cba_rule_model
-        self.quantitative_dataset = quantitative_dataset
+    def __init__(self, cba_rule_model, quantitative_dataset, rules=None):
+        if rules and cba_rule_model:
+            raise Exception("rules and cba_rule_model cannot be specified together")
 
-        self.__quant_rules = [ QuantitativeCAR(r) for r in cba_rule_model.clf.rules ] 
+        if not rules and not cba_rule_model:
+            raise Exception("either rules and cba_rule_model need to be specified")
+
+        self.quantitative_dataset = quantitative_dataset
+        self.__quant_rules = None
+
+        if cba_rule_model:
+            self.__quant_rules = [ QuantitativeCAR(r) for r in cba_rule_model.clf.rules ]
+        if rules:
+            self.__quant_rules = [ QuantitativeCAR(r) for r in rules ]
+         
 
         self.qcba_transformation = QCBATransformation(quantitative_dataset)
 
