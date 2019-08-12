@@ -4,7 +4,7 @@ from .classifier import QuantitativeClassifier
 
 class QCBA:
 
-    def __init__(self, cba_rule_model, quantitative_dataset, rules=None):
+    def __init__(self, quantitative_dataset, cba_rule_model=None, rules=None):
         if rules and cba_rule_model:
             raise Exception("rules and cba_rule_model cannot be specified together")
 
@@ -48,3 +48,9 @@ class QCBA:
         self.clf = QuantitativeClassifier(transformed_rules, default_class)
 
         return self.clf
+
+
+    def score(self, quantitative_dataset):
+        actual = quantitative_dataset.dataframe.iloc[:, -1]
+        
+        return self.clf.rule_model_accuracy(quantitative_dataset, actual)
