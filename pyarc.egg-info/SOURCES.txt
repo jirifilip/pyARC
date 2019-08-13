@@ -25,6 +25,7 @@ pyarc/data_structures/transaction.py
 pyarc/data_structures/transaction_db.py
 pyarc/qcba/__init__.py
 pyarc/qcba/classifier.py
+pyarc/qcba/qcba.py
 pyarc/qcba/transformation.py
 pyarc/utils/__init__.py
 pyarc/utils/plotting.py

@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: pyarc
-Version: 1.0.9
+Version: 1.0.15
 Summary: An implementation of CBA algorithm
 Home-page: https://github.com/jirifilip/pyARC
 Author: Jiří Filip
@@ -8,5 +8,5 @@ Author-email: j.f.ilip@seznam.cz
 License: UNKNOWN
 Download-URL: https://github.com/jirifilip/pyARC/archive/1.0.tar.gz
 Description: UNKNOWN
-Keywords: classification,CBA,association rules,machine learning
+Keywords: classification CBA association rules machine learning
 Platform: UNKNOWN
