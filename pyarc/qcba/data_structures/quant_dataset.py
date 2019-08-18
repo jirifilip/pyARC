@@ -239,7 +239,7 @@ class QuantitativeDataFrame:
     def __get_consequent_coverage_mask(self, rule):
         consequent = rule.consequent
         attribute, value = consequent
-        
+
         class_column = self.__dataframe[[attribute]].values
         class_column = class_column.astype(str)
 

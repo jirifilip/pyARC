@@ -1,5 +1,4 @@
 # pyARC
-[![Build Status](https://semaphoreci.com/api/v1/jirifilip/pyarc/branches/working/badge.svg)](https://semaphoreci.com/jirifilip/pyarc)
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 pyARC is an implementation of CBA (Classification Based on Assocation) algorithm introduced in
@@ -7,8 +6,12 @@ pyARC is an implementation of CBA (Classification Based on Assocation) algorithm
 
  ```Liu, B. Hsu, W. and Ma, Y (1998). Integrating Classification and Association Rule Mining. Proceedings KDD-98, New York, 27-31 August. AAAI. pp 80-86.```
 
+In addition, pyARC contains the implementation of QCBA (Quantitative CBA) algorithm introduced in 
 
-The [pyFIM](http://www.borgelt.net/pyfim.html) package is used for the rule generation step. 
+ ```KLIEGR, Tomas. Quantitative CBA: Small and Comprehensible Association Rule Classification Models. arXiv preprint arXiv:1711.10166, 2017.```
+
+
+The [fim](http://www.borgelt.net/pyfim.html) package is used for the rule generation step. 
 
  If you find this package useful in your research, please consider citing:
 
@@ -26,6 +29,9 @@ The [pyFIM](http://www.borgelt.net/pyfim.html) package is used for the rule gene
 ```
 pip install pyarc
 ```
+
+For using pyARC, the [fim](http://www.borgelt.net/pyfim.html) package needs to be installed (refer to http://www.borgelt.net/pyfim.html for installation guide).
+
 
 ## Testing
 ```
