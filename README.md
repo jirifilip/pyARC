@@ -10,7 +10,7 @@ In addition, pyARC contains the implementation of QCBA (Quantitative CBA) algori
 
  ```KLIEGR, Tomas. Quantitative CBA: Small and Comprehensible Association Rule Classification Models. arXiv preprint arXiv:1711.10166, 2017.```
 
-The use of QCBA algorithm is demonstrated in [this jupyter notebook](https://github.com/jirifilip/pyARC/tree/master/notebooks/extensions/QCBA_demonstration.ipynb).
+The use of [QCBA](https://arxiv.org/abs/1711.10166) algorithm is demonstrated in [this jupyter notebook](https://github.com/jirifilip/pyARC/tree/master/notebooks/extensions/QCBA_demonstration.ipynb).
 
 
 The [fim](http://www.borgelt.net/pyfim.html) package is used for the rule generation step. 
