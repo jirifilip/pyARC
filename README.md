@@ -15,7 +15,7 @@ The use of [QCBA](https://arxiv.org/abs/1711.10166) algorithm is demonstrated in
 
 The [fim](http://www.borgelt.net/pyfim.html) package is used for the rule generation step. 
 
- If you find this package useful in your research, please consider citing ([EasyChair link](https://easychair.org/publications/preprint/5d6G)):
+ If you find this package useful in your research, please cite ([EasyChair link](https://easychair.org/publications/preprint/5d6G)):
 
 ```
  @techreport{filip2018classification,
