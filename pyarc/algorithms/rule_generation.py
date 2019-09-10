@@ -63,7 +63,7 @@ def generateCARs(transactionDB, support=1, confidence=50, maxlen=10, **kwargs):
     """
     appear = transactionDB.appeardict
     
-    rules = fim.apriori(transactionDB.string_representation, supp=support, conf=confidence, target="r", report="sc", appear=appear, **kwargs, zmax=maxlen)
+    rules = fim.apriori(transactionDB.string_representation, supp=support, conf=confidence, mode="o", target="r", report="sc", appear=appear, **kwargs, zmax=maxlen)
     
 
     return createCARs(rules)
@@ -150,7 +150,7 @@ def top_rules(transactions,
         print("Running apriori with setting: confidence={}, support={}, minlen={}, maxlen={}, MAX_RULE_LEN={}".format(
                 conf, support, minlen, maxlen, MAX_RULE_LEN))
         
-        rules_current = fim.arules(transactions, supp=support, conf=conf, report="sc", appear=appearance, zmax=maxlen, zmin=minlen)
+        rules_current = fim.arules(transactions, supp=support, conf=conf, mode="o", report="sc", appear=appearance, zmax=maxlen, zmin=minlen)
         
         rules = rules_current
         
