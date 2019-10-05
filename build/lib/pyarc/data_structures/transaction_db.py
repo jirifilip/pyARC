@@ -4,7 +4,7 @@ from . import Item
 
 class TransactionDB:
     
-    def __init__(self, dataset, header, unique_transactions=True):
+    def __init__(self, dataset, header, unique_transactions=True, drop_NaN=True):
         """TransactionDB represents a list of Transactions that can be
         passed to CBA algorithm as a training or a test set. 
 
@@ -19,6 +19,10 @@ class TransactionDB:
         unique_transactions: bool
             Determines if UniqueTransaction or Transaction class
             should be used for individual instances.
+
+        drop_NaN: bool
+            Used for determining whether a an Item
+            with NULL value should be dropped from Transaction
 
 
         Attributes
@@ -42,6 +46,7 @@ class TransactionDB:
         
         TransactionClass = UniqueTransaction if unique_transactions else Transaction
         
+        self._dataset_param = dataset
         self.header = header
         self.class_labels = []
         
@@ -49,7 +54,7 @@ class TransactionDB:
 
         for row in dataset:
             class_label = Item(header[-1], row[-1])
-            new_row = TransactionClass(row[:-1], header[:-1], class_label)
+            new_row = TransactionClass(row[:-1], header[:-1], class_label, drop_NaN=drop_NaN)
             
             self.class_labels.append(class_label)
             
@@ -85,6 +90,20 @@ class TransactionDB:
             appear.add_to_RHS(item)
 
         return appear.dictionary
+
+
+    @property
+    def appeardict_itemsets_only(self):
+        """
+        Returns
+        -------
+        an appearance dictionary to be used in the fim
+        package. Assumes user wants to generate frequent itemsets
+        only, not class assocation rules
+        """
+        appear = Appearance()
+        
+        return appear.dictionary
         
     
     def __getitem__(self, idx):
@@ -92,16 +111,30 @@ class TransactionDB:
     
     
     @classmethod
-    def from_DataFrame(clazz, df, unique_transactions=False):
+    def from_DataFrame(clazz, df, unique_transactions=False, drop_NaN=True):
         """
         Allows the conversion of pandas DataFrame class to 
         TransactionDB class.
+
+        Parameters
+        ----------
+        
+        df: pandas DataFrame
+            A DataFrame from which to create a TransactionDB.
+    
+        unique_transactions: bool
+            Determines if UniqueTransaction or Transaction class
+            should be used for individual instances.
+
+        drop_NaN: bool
+            Used for determining whether a an Item
+            with NULL value should be dropped from Transaction.
         """
         
         rows = df.values
         header = list(df.columns.values)
 
-        return clazz(rows, header, unique_transactions=unique_transactions)
+        return clazz(rows, header, unique_transactions=unique_transactions, drop_NaN=drop_NaN)
 
     
     def __repr__(self):

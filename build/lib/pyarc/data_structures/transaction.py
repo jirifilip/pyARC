@@ -1,5 +1,7 @@
 from .comparable_itemset import ComparableItemSet
 from .item import Item
+import pandas as pd
+import numpy as np
 
 
 class Transaction(ComparableItemSet):
@@ -17,6 +19,10 @@ class Transaction(ComparableItemSet):
     
     class_item: Item
         Item with class attribute.
+
+    drop_NaN: bool
+        Used for determining whether a an Item
+        with NULL value should be dropped from Transaction
 
 
     Attributes
@@ -41,7 +47,7 @@ class Transaction(ComparableItemSet):
 
     id_ = 0
     
-    def __init__(self, row, header, class_item):
+    def __init__(self, row, header, class_item, drop_NaN=True):
         self.class_val = class_item
         self.items = []
         self.tid = Transaction.id_
@@ -54,6 +60,10 @@ class Transaction(ComparableItemSet):
         
         
         for idx, val in enumerate(row):
+            # Drop items with NULL value
+            if drop_NaN and pd.isnull(val):
+                continue
+
             header_label = header[idx]
             
             item = Item(header_label, val)

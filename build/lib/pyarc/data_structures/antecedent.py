@@ -61,7 +61,7 @@ class Antecedent(ComparableItemSet):
             return items[idx]
         else:
             raise IndexError("No value at the specified index")
-            
+
     def __len__(self):
         """
         Returns

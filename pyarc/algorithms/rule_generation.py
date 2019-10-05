@@ -23,6 +23,8 @@ def createCARs(rules):
 
         con = Consequent(*con_tmp.split(":=:"))
 
+        # so that the order of items in antecedent is always the same
+        ant_tmp = sorted(list(ant_tmp))
         ant_items = [ Item(*i.split(":=:")) for i in ant_tmp ]
         ant = Antecedent(ant_items)
 
