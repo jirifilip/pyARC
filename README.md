@@ -69,7 +69,8 @@ from pyarc import TransactionDB
 from pyarc.algorithms import (
     top_rules,
     createCARs,
-    M1Algorithm
+    M1Algorithm,
+    M2Algorithm
 )
 import pandas as pd
 
@@ -87,9 +88,11 @@ rules = top_rules(txns_train.string_representation)
 cars = createCARs(rules)
 
 classifier = M1Algorithm(cars, txns_train).build()
+# classifier = M2Algorithm(cars, txns_train).build()
 
 accuracy = classifier.test_transactions(txns_test)
 
 ```
+
 
 
