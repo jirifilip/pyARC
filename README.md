@@ -27,7 +27,7 @@ The [fim](http://www.borgelt.net/pyfim.html) package is used for the rule genera
 ```
 
 
-## Instalation
+## Installation
 ```
 pip install pyarc
 ```
