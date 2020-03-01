@@ -95,7 +95,7 @@ class CBA():
         return self.clf.predict_all(X)
 
 
-    def predict_probablity(self, X):
+    def predict_probability(self, X):
         """Method for predicting probablity of 
         given classification
 ¨

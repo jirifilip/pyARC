@@ -65,4 +65,4 @@ class TestCBA(unittest.TestCase):
 
         cba.fit(transactions)
 
-        cba.predict_probablity(transactions_test)
+        cba.predict_probability(transactions_test)
