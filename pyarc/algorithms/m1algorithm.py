@@ -3,6 +3,7 @@ from .rule_algorithm import RuleBuilderAlgorithm
 from .classifier import Classifier
 
 import time
+import random
 
 class M1Algorithm(RuleBuilderAlgorithm):
     """ M1 Algorithm implementation.
@@ -21,8 +22,11 @@ class M1Algorithm(RuleBuilderAlgorithm):
         rule_errors = []
         # list for storing total errors
         # (rule_errors + default_classes_errors)
-        total_errors = []    
-
+        total_errors = []
+        # class distribution
+        # for calculating the default's rule confidence
+        # and support
+        class_distribution = collections.Counter(self.y)
 
 
         # sorting rules based on the precedence operator
@@ -90,11 +94,11 @@ class M1Algorithm(RuleBuilderAlgorithm):
                 
                 # we'll obtain Counter of remaining class values
                 # in the dataset using map to save time
-                ctr = collections.Counter(map(lambda d: d.class_val.value, dataset))
+                class_distribution = collections.Counter(map(lambda d: d.class_val.value, dataset))
                 
                 # the most common value from the counter will be
                 # the default class
-                most_common_tuple = ctr.most_common(1)
+                most_common_tuple = class_distribution.most_common(1)
                 
 
                 # here we'll do some checking in case
@@ -140,19 +144,35 @@ class M1Algorithm(RuleBuilderAlgorithm):
                 total_errors.append(err_cnt + sum(rule_errors))
                 
                 
+        
+        # finding the smallest number of errors
+        # but checking if at least one rule classified an instance
+        if len(total_errors) != 0:            
+            min_errors = min(total_errors)
+            
+            # finding the index of smallest number of errors
+            idx_to_cut = total_errors.index(min_errors)
+            
+            final_classifier = classifier[:idx_to_cut+1]
+            default_class = default_classes[idx_to_cut]        
+            
+            # creating the final classifier
+            clf = Classifier()
+            clf.rules = final_classifier
+            clf.default_class = default_class
+        else:
+            clf = Classifier()
+            clf.rules = []
 
-        # finding the smallest number of errors            
-        min_errors = min(total_errors)
-        
-        # finding the index of smallest number of errors
-        idx_to_cut = total_errors.index(min_errors)
-        
-        final_classifier = classifier[:idx_to_cut+1]
-        default_class = default_classes[idx_to_cut]        
-        
-        # creating the final classifier
-        clf = Classifier()
-        clf.rules = final_classifier
-        clf.default_class = default_class
-        
+            possible_default_classes = list(class_distribution)
+            random_class_idx = random.randrange(0, len(possible_default_classes))
+            _, random_default_class_value = list(class_distribution.keys())[random_class_idx]
+            clf.default_class = random_default_class_value
+
+
+        self.calculate_default_class_properties(clf)        
+
         return clf
+
+
+        

@@ -33,7 +33,7 @@ class TestRuleGeneration(unittest.TestCase):
 
         transactionDB1 = TransactionDB(rows1, header1)
 
-        rules = generateCARs(transactionDB1, support=60)
+        rules = generateCARs(transactionDB1, support=50)
 
         car1 = ClassAssocationRule([], Consequent("Y", 1), support=0.5, confidence=0.5)
         car1.id = rules[0].id

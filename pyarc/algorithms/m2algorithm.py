@@ -2,6 +2,8 @@ from .rule_algorithm import RuleBuilderAlgorithm
 from .classifier import Classifier
 from ..data_structures import ClassAssocationRule, Antecedent, Consequent
 
+import random
+
 import collections
 
 class M2Algorithm(RuleBuilderAlgorithm):
@@ -35,6 +37,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         clf = Classifier()
         clf.rules = self.classifier
         clf.default_class = self.default_class
+        self.calculate_default_class_properties(clf)
         
         return clf
     
@@ -122,22 +125,31 @@ class M2Algorithm(RuleBuilderAlgorithm):
                 total_errors_list.append(total_errors)
                 
         
-        min_value = min(total_errors_list)
-        
-        min_indices = [ idx for (idx, err_num) in enumerate(total_errors_list) if err_num == min_value ]
-        min_idx = min_indices[0]
-        
-        final_classifier = [ rule for rule in rules_list[:min_idx + 1] ]
-        default_class = default_classes_list[min_idx]
+        if len(total_errors_list) != 0:
+            min_value = min(total_errors_list)
+            
+            min_indices = [ idx for (idx, err_num) in enumerate(total_errors_list) if err_num == min_value ]
+            min_idx = min_indices[0]
+            
+            final_classifier = [ rule for rule in rules_list[:min_idx + 1] ]
+            default_class = default_classes_list[min_idx]
 
-        if not default_class:
-            i = min_idx
-            while not default_class:
-                i -= 1
-                default_class = default_classes_list[i]
+            if not default_class:
+                i = min_idx
+                while not default_class:
+                    i -= 1
+                    default_class = default_classes_list[i]
 
-        self.classifier = final_classifier
-        self.default_class = default_class
+            self.classifier = final_classifier
+            self.default_class = default_class
+        else:
+            possible_default_classes = list(classdist)
+            random_class_idx = random.randrange(0, len(possible_default_classes))
+            _, random_default_class_value = list(classdist.keys())[random_class_idx]
+            default_class = random_default_class_value
+
+            self.classifier = []
+            self.default_class = default_class
         
     
     def emptyrule(self):

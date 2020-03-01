@@ -54,3 +54,15 @@ class TestCBA(unittest.TestCase):
         accuracy = cba.rule_model_accuracy(transactions_test)
 
         self.assertAlmostEqual(accuracy, expected_accuracy, places=3)
+
+    def test_predict_probability(self):
+        cba = CBA(algorithm="m2")
+
+        test_dataframe = pd.read_csv(dataset_file, sep=";")
+        
+        transactions = TransactionDB.from_DataFrame(test_dataframe)
+        transactions_test = TransactionDB.from_DataFrame(test_dataframe[:2])
+
+        cba.fit(transactions)
+
+        cba.predict_probablity(transactions_test)

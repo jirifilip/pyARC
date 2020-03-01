@@ -10,6 +10,8 @@ class Classifier:
     def __init__(self):
         self.rules = []
         self.default_class = None
+        self.default_class_confidence = None
+        self.default_class_support = None
 
 
     def test_transactions(self, txns):
@@ -30,7 +32,7 @@ class Classifier:
             if rule.antecedent <= datacase:
                 return rule.consequent.value
             
-        return self.default_class    
+        return self.default_class
         
     def predict_all(self, dataset):
         """predicts target class of an array
@@ -40,6 +42,28 @@ class Classifier:
         
         for datacase in dataset:
             predicted.append(self.predict(datacase))
+            
+        return predicted
+
+
+    def predict_probability(self, datacase):
+        """predicts target class probablity of one 
+        datacase
+        """
+        for rule in self.rules:
+            if rule.antecedent <= datacase:
+                return rule.confidence
+            
+        return self.default_class_confidence
+
+    def predict_probability_all(self, dataset):
+        """predicts target class probablity
+        of an array of datacases
+        """
+        predicted = []
+        
+        for datacase in dataset:
+            predicted.append(self.predict_probability(datacase))
             
         return predicted
 
@@ -65,6 +89,15 @@ class Classifier:
             dictionary["support"].append(rule.support)
             dictionary["length"].append(len(rule.antecedent) + 1)
             dictionary["id"].append(rule.rid)
+
+        # default rule
+        dictionary["lhs"].append("{}")
+        dictionary["rhs"].append(self.default_class)
+        dictionary["confidence"].append(self.default_class_confidence)
+        dictionary["support"].append(self.default_class_support)
+        dictionary["length"].append(1)
+        dictionary["id"].append(None)
+
 
         rules_df = pd.DataFrame(dictionary)
         rules_df = rules_df[["lhs", "rhs", "confidence", "support", "length", "id"]]
