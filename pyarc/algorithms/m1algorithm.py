@@ -27,6 +27,7 @@ class M1Algorithm(RuleBuilderAlgorithm):
         # for calculating the default's rule confidence
         # and support
         class_distribution = collections.Counter(self.y)
+        classdist_keys = list(class_distribution.keys())
 
 
         # sorting rules based on the precedence operator
@@ -160,14 +161,17 @@ class M1Algorithm(RuleBuilderAlgorithm):
             clf = Classifier()
             clf.rules = final_classifier
             clf.default_class = default_class
+            clf.default_class_attribute = classdist_keys[0][0]
+
         else:
             clf = Classifier()
             clf.rules = []
 
             possible_default_classes = list(class_distribution)
             random_class_idx = random.randrange(0, len(possible_default_classes))
-            _, random_default_class_value = list(class_distribution.keys())[random_class_idx]
-            clf.default_class = random_default_class_value
+            default_class_att, default_class_value = classdist_keys[random_class_idx]
+            clf.default_class = default_class_value
+            clf.default_class_attribute = default_class_att
 
 
         self.calculate_default_class_properties(clf)        

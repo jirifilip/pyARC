@@ -12,6 +12,7 @@ class Classifier:
     def __init__(self):
         self.rules = []
         self.default_class = None
+        self.default_class_attribute = None
         self.default_class_confidence = None
         self.default_class_support = None
 
@@ -59,7 +60,7 @@ class Classifier:
                 return rule
 
         default_rule_ant = Antecedent({})
-        default_rule_conseq = Consequent("class", self.default_class)
+        default_rule_conseq = Consequent(self.default_class_attribute, self.default_class)
         
         default_rule = ClassAssocationRule(
             default_rule_ant,

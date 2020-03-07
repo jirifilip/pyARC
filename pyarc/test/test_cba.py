@@ -6,7 +6,7 @@ from pyarc.data_structures import (
 )
 import os
 
-dataset_file = os.path.dirname(os.path.realpath(__file__)) + "/data/movies_discr.csv"
+dataset_file = os.path.dirname(os.path.realpath(__file__)) + "/data/titanic.csv"
 
 class TestCBA(unittest.TestCase):
 
@@ -32,7 +32,7 @@ class TestCBA(unittest.TestCase):
     def test_fitting(self):
         cba = CBA()
 
-        test_dataframe = pd.read_csv(dataset_file, sep=";")
+        test_dataframe = pd.read_csv(dataset_file, sep=",")
         
         transactions = TransactionDB.from_DataFrame(test_dataframe)
 
@@ -44,7 +44,7 @@ class TestCBA(unittest.TestCase):
 
         cba = CBA(algorithm="m2")
 
-        test_dataframe = pd.read_csv(dataset_file, sep=";")
+        test_dataframe = pd.read_csv(dataset_file, sep=",")
         
         transactions = TransactionDB.from_DataFrame(test_dataframe)
         transactions_test = TransactionDB.from_DataFrame(test_dataframe[:2])
@@ -58,7 +58,7 @@ class TestCBA(unittest.TestCase):
     def test_predict_probability(self):
         cba = CBA(algorithm="m2")
 
-        test_dataframe = pd.read_csv(dataset_file, sep=";")
+        test_dataframe = pd.read_csv(dataset_file, sep=",")
         
         transactions = TransactionDB.from_DataFrame(test_dataframe)
         transactions_test = TransactionDB.from_DataFrame(test_dataframe[:2])
@@ -71,7 +71,7 @@ class TestCBA(unittest.TestCase):
     def test_predict_probability_works(self):
         cba = CBA(algorithm="m1")
 
-        test_dataframe = pd.read_csv(dataset_file, sep=";")
+        test_dataframe = pd.read_csv(dataset_file, sep=",")
         
         transactions = TransactionDB.from_DataFrame(test_dataframe)
         transactions_test = TransactionDB.from_DataFrame(test_dataframe[:2])
@@ -84,3 +84,33 @@ class TestCBA(unittest.TestCase):
         for idx in range(len(probabilities)):
             self.assertEqual(probabilities[idx], matched_rules[idx].confidence)
 
+    def test_rule_class_label_works(self):
+        cba = CBA(algorithm="m2")
+
+        test_dataframe = pd.read_csv(dataset_file, sep=",")
+        
+        transactions = TransactionDB.from_DataFrame(test_dataframe)
+
+        cba.fit(transactions)
+
+        rules = cba.clf.rules 
+
+        rule0 = rules[0]
+        
+        self.assertEqual(rule0.consequent[0], test_dataframe.columns.values[-1])
+
+
+    def test_target_class_works(self):
+        cba = CBA(algorithm="m2")
+
+        test_dataframe = pd.read_csv(dataset_file, sep=",")
+        
+        transactions = TransactionDB.from_DataFrame(test_dataframe, target="Gender")
+
+        cba.fit(transactions)
+
+        rules = cba.clf.rules 
+
+        rule0 = rules[0]
+        
+        self.assertEqual(rule0.consequent[0], "Gender")

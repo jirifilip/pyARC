@@ -111,7 +111,7 @@ class TransactionDB:
     
     
     @classmethod
-    def from_DataFrame(clazz, df, unique_transactions=False, drop_NaN=True):
+    def from_DataFrame(clazz, df, unique_transactions=False, drop_NaN=True, target=None):
         """
         Allows the conversion of pandas DataFrame class to 
         TransactionDB class.
@@ -129,7 +129,24 @@ class TransactionDB:
         drop_NaN: bool
             Used for determining whether a an Item
             with NULL value should be dropped from Transaction.
+
+        target: str, default None
+            Name of an existing column in df. This column will
+            be taken as a class target.
         """
+
+        if target is not None:
+            if type(target) != str:
+                raise Exception("'target' should be a string")
+
+            if target not in df.columns.values:
+                raise Exception("'target' must be in df columns")
+
+            new_columns = list(df.columns.values)
+            new_columns.pop(new_columns.index(target))
+            new_columns.append(target)
+
+            df = df[new_columns]
         
         rows = df.values
         header = list(df.columns.values)
