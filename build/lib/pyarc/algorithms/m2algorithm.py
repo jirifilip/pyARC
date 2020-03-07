@@ -97,6 +97,7 @@ class M2Algorithm(RuleBuilderAlgorithm):
         
         # class distribution
         classdist = collections.Counter(map(lambda d: d.class_val.value, self.dataset_frozen))
+        classdist_keys = list(classdist.keys())
         
         for rule in Qlist:
             if rule.class_cases_covered[rule.consequent.value] > 0:
@@ -142,15 +143,15 @@ class M2Algorithm(RuleBuilderAlgorithm):
 
             self.classifier = final_classifier
             self.default_class = default_class
+            self.default_class_attribute = classdist_keys[0][0]
         else:
             possible_default_classes = list(classdist)
             random_class_idx = random.randrange(0, len(possible_default_classes))
-            _, random_default_class_value = list(classdist.keys())[random_class_idx]
-            default_class = random_default_class_value
+            default_class_att, default_class_value = list(classdist.keys())[random_class_idx]
 
             self.classifier = []
-            self.default_class = default_class
-        
+            self.default_class = default_class_value
+            self.default_class_attribute = default_class_att
     
     def emptyrule(self):
         """returns rule with empty antecedent

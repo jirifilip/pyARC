@@ -37,6 +37,7 @@ class CBA():
         self.algorithm = algorithm
         self.maxlen = maxlen
         self.clf = None
+        self.target_class = None
         
         self.available_algorithms = {
             "m1": M1Algorithm,
@@ -64,6 +65,8 @@ class CBA():
         """
         if not isinstance(transactions, TransactionDB):
             raise Exception("transactions must be of type TransactionDB")
+
+        self.target_class = transactions.header[-1]
 
         used_algorithm = self.available_algorithms[self.algorithm]
         
