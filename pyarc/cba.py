@@ -103,6 +103,14 @@ class CBA():
         """
 
         return self.clf.predict_probability_all(X)
+
+    def predict_matched_rules(self, X):
+        """for each data instance, returns a rule that
+        matched it according to the CBA order (sorted by 
+        confidence, support and length)
+        """
+
+        return self.clf.predict_matched_rule_all(X)
     
     
     

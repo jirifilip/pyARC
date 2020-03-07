@@ -66,3 +66,21 @@ class TestCBA(unittest.TestCase):
         cba.fit(transactions)
 
         cba.predict_probability(transactions_test)
+
+
+    def test_predict_probability_works(self):
+        cba = CBA(algorithm="m1")
+
+        test_dataframe = pd.read_csv(dataset_file, sep=";")
+        
+        transactions = TransactionDB.from_DataFrame(test_dataframe)
+        transactions_test = TransactionDB.from_DataFrame(test_dataframe[:2])
+
+        cba.fit(transactions)
+
+        probabilities = cba.predict_probability(transactions_test)
+        matched_rules = cba.predict_matched_rules(transactions_test)
+
+        for idx in range(len(probabilities)):
+            self.assertEqual(probabilities[idx], matched_rules[idx].confidence)
+

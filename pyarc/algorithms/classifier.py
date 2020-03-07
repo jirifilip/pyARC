@@ -1,6 +1,8 @@
 import pandas as pd
 from functools import reduce
 
+from ..data_structures import ClassAssocationRule, Antecedent, Consequent
+
 class Classifier:
     """
     Classifier for CBA that can predict 
@@ -12,6 +14,7 @@ class Classifier:
         self.default_class = None
         self.default_class_confidence = None
         self.default_class_support = None
+
 
 
     def test_transactions(self, txns):
@@ -44,6 +47,41 @@ class Classifier:
             predicted.append(self.predict(datacase))
             
         return predicted
+
+    def predict_matched_rule(self, datacase):
+        """returns a rule that matched the instance
+        according to the CBA order (rules are sorted
+        by confidence, support and length and first matched
+        rule is returned)
+        """
+        for rule in self.rules:
+            if rule.antecedent <= datacase:
+                return rule
+
+        default_rule_ant = Antecedent({})
+        default_rule_conseq = Consequent("class", self.default_class)
+        
+        default_rule = ClassAssocationRule(
+            default_rule_ant,
+            default_rule_conseq,
+            self.default_class_support,
+            self.default_class_confidence
+        )
+
+        return default_rule
+
+    def predict_matched_rule_all(self, dataset):
+        """for each data instance, returns a rule that
+        matched it according to the CBA order (sorted by 
+        confidence, support and length)
+        """
+        matched_rules = []
+        
+        for datacase in dataset:
+            matched_rules.append(self.predict_matched_rule(datacase))
+            
+        return matched_rules
+
 
 
     def predict_probability(self, datacase):

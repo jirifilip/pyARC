@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyarc
-Version: 1.0.19
+Version: 1.0.20
 Summary: An implementation of CBA algorithm
 Home-page: https://github.com/jirifilip/pyARC
 Author: Jiří Filip
@@ -36,7 +36,7 @@ Description: # pyARC
         ```
         
         
-        ## Instalation
+        ## Installation
         ```
         pip install pyarc
         ```
@@ -78,7 +78,8 @@ Description: # pyARC
         from pyarc.algorithms import (
             top_rules,
             createCARs,
-            M1Algorithm
+            M1Algorithm,
+            M2Algorithm
         )
         import pandas as pd
         
@@ -96,10 +97,12 @@ Description: # pyARC
         cars = createCARs(rules)
         
         classifier = M1Algorithm(cars, txns_train).build()
+        # classifier = M2Algorithm(cars, txns_train).build()
         
         accuracy = classifier.test_transactions(txns_test)
         
         ```
+        
         
         
         
