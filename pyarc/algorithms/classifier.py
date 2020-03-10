@@ -16,6 +16,8 @@ class Classifier:
         self.default_class_confidence = None
         self.default_class_support = None
 
+        self.default_rule = None
+
 
 
     def test_transactions(self, txns):
@@ -59,17 +61,7 @@ class Classifier:
             if rule.antecedent <= datacase:
                 return rule
 
-        default_rule_ant = Antecedent({})
-        default_rule_conseq = Consequent(self.default_class_attribute, self.default_class)
-        
-        default_rule = ClassAssocationRule(
-            default_rule_ant,
-            default_rule_conseq,
-            self.default_class_support,
-            self.default_class_confidence
-        )
-
-        return default_rule
+        return self.default_rule
 
     def predict_matched_rule_all(self, dataset):
         """for each data instance, returns a rule that

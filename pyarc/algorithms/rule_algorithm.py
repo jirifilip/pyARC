@@ -1,5 +1,7 @@
 from collections import Counter
 
+from ..data_structures import ClassAssocationRule, Antecedent, Consequent
+
 class RuleBuilderAlgorithm:
     """Common ancestor for M1 and M2 Algorithms
     to provide common interface.
@@ -22,5 +24,15 @@ class RuleBuilderAlgorithm:
 
         clf.default_class_support = class_distribution[default_class] / len(self.y)
         clf.default_class_confidence = class_distribution[default_class] / len(self.y)
+
+        default_rule_ant = Antecedent({})
+        default_rule_conseq = Consequent(clf.default_class_attribute, clf.default_class)
+
+        clf.default_rule = ClassAssocationRule(
+            default_rule_ant,
+            default_rule_conseq,
+            clf.default_class_support,
+            clf.default_class_confidence
+        )
 
     
