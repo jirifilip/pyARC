@@ -3,6 +3,7 @@ setup.cfg
 setup.py
 pyarc/CBA.py
 pyarc/__init__.py
+pyarc/cba.py
 pyarc.egg-info/PKG-INFO
 pyarc.egg-info/SOURCES.txt
 pyarc.egg-info/dependency_links.txt

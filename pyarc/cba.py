@@ -37,6 +37,7 @@ class CBA():
         self.algorithm = algorithm
         self.maxlen = maxlen
         self.clf = None
+        self.target_class = None
         
         self.available_algorithms = {
             "m1": M1Algorithm,
@@ -64,6 +65,8 @@ class CBA():
         """
         if not isinstance(transactions, TransactionDB):
             raise Exception("transactions must be of type TransactionDB")
+
+        self.target_class = transactions.header[-1]
 
         used_algorithm = self.available_algorithms[self.algorithm]
         
@@ -93,6 +96,24 @@ class CBA():
 
 
         return self.clf.predict_all(X)
+
+
+    def predict_probability(self, X):
+        """Method for predicting probablity of 
+        given classification
+¨
+        CBA.fit must be used before predicting probablity.
+        """
+
+        return self.clf.predict_probability_all(X)
+
+    def predict_matched_rules(self, X):
+        """for each data instance, returns a rule that
+        matched it according to the CBA order (sorted by 
+        confidence, support and length)
+        """
+
+        return self.clf.predict_matched_rule_all(X)
     
     
     

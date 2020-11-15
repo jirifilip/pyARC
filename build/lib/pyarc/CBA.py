@@ -1,4 +1,10 @@
-from .algorithms import M1Algorithm, M2Algorithm, generateCARs
+from .algorithms import (
+    M1Algorithm,
+    M2Algorithm,
+    generateCARs,
+    createCARs,
+    top_rules
+)
 from .data_structures import TransactionDB
 
 class CBA():
@@ -20,9 +26,9 @@ class CBA():
         if algorithm not in ["m1", "m2"]:
             raise Exception("algorithm parameter must be either 'm1' or 'm2'")
         if 0 > support or support > 1:
-            raise Exception("support must best on the interval <0;1>")
+            raise Exception("support must be on the interval <0;1>")
         if 0 > confidence or confidence > 1:
-            raise Exception("confidence must best on the interval <0;1>")
+            raise Exception("confidence must be on the interval <0;1>")
         if maxlen < 1:
             raise Exception("maxlen cannot be negative or 0")
         
@@ -31,6 +37,7 @@ class CBA():
         self.algorithm = algorithm
         self.maxlen = maxlen
         self.clf = None
+        self.target_class = None
         
         self.available_algorithms = {
             "m1": M1Algorithm,
@@ -46,22 +53,30 @@ class CBA():
         accuracy of the classifier
         """
         if not self.clf:
-            raise Exception("CBA must be train using fit method first")
+            raise Exception("CBA must be trained using fit method first")
         if not isinstance(txns, TransactionDB):
             raise Exception("txns must be of type TransactionDB")
 
         return self.clf.test_transactions(txns)
         
-    def fit(self, transactions):
+    def fit(self, transactions, top_rules_args={}):
         """Trains the model based on input transaction
         and returns self.
         """
         if not isinstance(transactions, TransactionDB):
             raise Exception("transactions must be of type TransactionDB")
 
+        self.target_class = transactions.header[-1]
+
         used_algorithm = self.available_algorithms[self.algorithm]
         
-        cars = generateCARs(transactions, support=self.support, confidence=self.confidence, maxlen=self.maxlen)
+        cars = None
+
+        if not top_rules_args:
+            cars = generateCARs(transactions, support=self.support, confidence=self.confidence, maxlen=self.maxlen)
+        else:
+            rules = top_rules(transactions.string_representation, appearance=transactions.appeardict, **top_rules_args) 
+            cars = createCARs(rules)
 
         self.clf = used_algorithm(cars, transactions).build()
         
@@ -81,6 +96,24 @@ class CBA():
 
 
         return self.clf.predict_all(X)
+
+
+    def predict_probability(self, X):
+        """Method for predicting probablity of 
+        given classification
+¨
+        CBA.fit must be used before predicting probablity.
+        """
+
+        return self.clf.predict_probability_all(X)
+
+    def predict_matched_rules(self, X):
+        """for each data instance, returns a rule that
+        matched it according to the CBA order (sorted by 
+        confidence, support and length)
+        """
+
+        return self.clf.predict_matched_rule_all(X)
     
     
     
