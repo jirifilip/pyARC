@@ -28,5 +28,10 @@ pyarc/qcba/__init__.py
 pyarc/qcba/classifier.py
 pyarc/qcba/qcba.py
 pyarc/qcba/transformation.py
+pyarc/qcba/data_structures/__init__.py
+pyarc/qcba/data_structures/interval.py
+pyarc/qcba/data_structures/interval_reader.py
+pyarc/qcba/data_structures/quant_dataset.py
+pyarc/qcba/data_structures/quant_rule.py
 pyarc/utils/__init__.py
 pyarc/utils/plotting.py

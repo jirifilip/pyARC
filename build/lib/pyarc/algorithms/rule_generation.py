@@ -1,6 +1,7 @@
 import time
 import fim
 from ..data_structures import Consequent, Item, Antecedent, ClassAssocationRule
+import logging
 
 def createCARs(rules):
     """Function for converting output from fim.arules or fim.apriori
@@ -138,18 +139,15 @@ def top_rules(transactions,
     iterations = 0
     
     rules = None
-    
-    
+
     while flag:
         iterations += 1
             
         if iterations == max_iterations:
-            print("Max iterations reached")
+            logging.debug("Max iterations reached")
             break
-                
-                
-        
-        print("Running apriori with setting: confidence={}, support={}, minlen={}, maxlen={}, MAX_RULE_LEN={}".format(
+
+        logging.debug("Running apriori with setting: confidence={}, support={}, minlen={}, maxlen={}, MAX_RULE_LEN={}".format(
                 conf, support, minlen, maxlen, MAX_RULE_LEN))
         
         rules_current = fim.arules(transactions, supp=support, conf=conf, mode="o", report="sc", appear=appearance, zmax=maxlen, zmin=minlen)
@@ -158,43 +156,41 @@ def top_rules(transactions,
         
         rule_count = len(rules)
         
-        print("Rule count: {}, Iteration: {}".format(rule_count, iterations))
+        logging.debug("Rule count: {}, Iteration: {}".format(rule_count, iterations))
         
         if (rule_count >= target_rule_count):
             flag = False
-            print("Target rule count satisfied:", target_rule_count)
+            logging.debug(f"Target rule count satisfied: {target_rule_count}")
         else:
             exectime = time.time() - starttime
             
             if exectime > total_timeout:
-                print("Execution time exceeded:", total_timeout)
+                logging.debug(f"Execution time exceeded: {total_timeout}")
                 flag = False
                 
             elif maxlen < MAX_RULE_LEN and lastrulecount != rule_count and not maxlendecreased_due_timeout:
                     maxlen += 1
                     lastrulecount = rule_count
-                    print("Increasing maxlen", maxlen)
+                    logging.debug(f"Increasing maxlen {maxlen}")
                         
             elif maxlen < MAX_RULE_LEN and maxlendecreased_due_timeout and support <= 1 - supp_step:
                 support += supp_step
                 maxlen += 1
                 lastrulecount = rule_count
                 
-                print("Increasing maxlen to", maxlen)
-                print("Increasing minsup to", support)
+                logging.debug(f"Increasing maxlen to {maxlen}")
+                logging.debug(f"Increasing minsup to {support}")
                 
                 maxlendecreased_due_timeout = False
             
             elif conf > conf_step:
                 conf -= conf_step
-                print("Decreasing confidence to", conf)
+                logging.debug(f"Decreasing confidence to {conf}")
                 
             else:
-                print("All options exhausted")
+                logging.debug("All options exhausted")
                 flag = False
         
-            
-       
     return rules
 
 
