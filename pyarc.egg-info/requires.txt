@@ -1,4 +1,4 @@
 pandas
 numpy
-sklearn
+scikit-learn
 pyfim
