@@ -20,5 +20,5 @@ setup(
   download_url='https://github.com/jirifilip/pyARC/archive/1.0.tar.gz',
   keywords='classification CBA association rules machine learning',
   classifiers=[],
-  install_requires=['pandas', 'numpy', 'sklearn', "pyfim"]
+  install_requires=['pandas', 'numpy', 'scikit-learn', "pyfim"]
 )
